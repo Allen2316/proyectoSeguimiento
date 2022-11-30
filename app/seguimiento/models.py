@@ -25,63 +25,6 @@ class Informacion_laboral(models.Model):
         return self.cargo_ocupar
 
 
-class Oferta_Laboral(models.Model):
-    id_oferta_laboral = models.AutoField(primary_key=True)
-
-    informacion_laboral = models.ForeignKey(
-        Informacion_laboral,
-        on_delete=models.CASCADE,
-    )
-
-    empresa = models.ForeignKey(
-        Empresa,
-        on_delete=models.CASCADE,
-    )
-
-    def __str__(self):
-        return '%s en la empresa "%s"' % (self.informacion_laboral.cargo_ocupar,
-                                          self.empresa.nombre_empresa)
-
-
-class Encuesta_Laboral(models.Model):
-    id_encuesta_laboral = models.AutoField(primary_key=True)
-    fecha_pub = models.DateField('Fecha de publicación')
-    oferta_laboral = models.ForeignKey(
-        Oferta_Laboral,
-        on_delete=models.CASCADE,
-    )
-
-    def __str__(self):
-        return 'Encuesta para la oferta laboral "%s"' % (self.oferta_laboral)
-
-
-class Pregunta(models.Model):
-    id_pregunta = models.AutoField(primary_key=True)
-    texto_pregunta = models.CharField(max_length=300)
-    encuesta_laboral = models.ForeignKey(
-        Encuesta_Laboral, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.texto_pregunta
-
-
-class Eleccion(models.Model):
-    lista_eleccion = (
-        (1, 'Muy Malo'),
-        (2, 'Malo'),
-        (3, 'Bueno'),
-        (4, 'Muy Bueno'),
-        (5, 'Excelente')
-    )
-    id_eleccion = models.AutoField(primary_key=True)
-    texto_eleccion = models.IntegerField(max_length=1, choices=lista_eleccion, null=False)
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
-    
-
-    def __str__(self):
-        return str(self.texto_eleccion)
-
-
 class Carrera(models.Model):
     lista_estado = (
         ('R', 'Rediseño'),
@@ -125,6 +68,67 @@ class Cuenta(models.Model):
 
     def __str__(self):
         return str(self.id_cuenta)
+
+
+class Oferta_Laboral(models.Model):
+    id_oferta_laboral = models.AutoField(primary_key=True)
+
+    informacion_laboral = models.ForeignKey(
+        Informacion_laboral,
+        on_delete=models.CASCADE,
+    )
+
+    empresa = models.ForeignKey(
+        Empresa,
+        on_delete=models.CASCADE,
+    )
+
+    cuenta = models.ForeignKey(
+        Cuenta,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return '%s en la empresa "%s"' % (self.informacion_laboral.cargo_ocupar,
+                                          self.empresa.nombre_empresa)
+
+
+class Encuesta_Laboral(models.Model):
+    id_encuesta_laboral = models.AutoField(primary_key=True)
+    fecha_pub = models.DateField('Fecha de publicación')
+    oferta_laboral = models.ForeignKey(
+        Oferta_Laboral,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return 'Encuesta para la oferta laboral "%s"' % (self.oferta_laboral)
+
+
+class Pregunta(models.Model):
+    id_pregunta = models.AutoField(primary_key=True)
+    texto_pregunta = models.CharField(max_length=300)
+    encuesta_laboral = models.ForeignKey(
+        Encuesta_Laboral, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.texto_pregunta
+
+
+class Eleccion(models.Model):
+    lista_eleccion = (
+        (1, 'Muy Malo'),
+        (2, 'Malo'),
+        (3, 'Bueno'),
+        (4, 'Muy Bueno'),
+        (5, 'Excelente')
+    )
+    id_eleccion = models.AutoField(primary_key=True)
+    texto_eleccion = models.IntegerField(choices=lista_eleccion, null=False)
+    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.texto_eleccion)
 
 
 class Periodo_Academico(models.Model):
