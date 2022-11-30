@@ -58,18 +58,6 @@ class Estudiante(models.Model):
         return '%s %s' % (self.nombres, self.apellidos)
 
 
-class Cuenta(models.Model):
-    id_cuenta = models.AutoField(primary_key=True)
-
-    estudiante = models.ForeignKey(
-        Estudiante,
-        on_delete=models.CASCADE,
-    )
-
-    def __str__(self):
-        return str(self.id_cuenta)
-
-
 class Oferta_Laboral(models.Model):
     id_oferta_laboral = models.AutoField(primary_key=True)
 
@@ -83,14 +71,26 @@ class Oferta_Laboral(models.Model):
         on_delete=models.CASCADE,
     )
 
-    cuenta = models.ForeignKey(
-        Cuenta,
+    def __str__(self):
+        return '%s en la empresa "%s"' % (self.informacion_laboral.cargo_ocupar,
+                                          self.empresa.nombre_empresa)
+
+
+class Cuenta(models.Model):
+    id_cuenta = models.AutoField(primary_key=True)
+
+    estudiante = models.ForeignKey(
+        Estudiante,
+        on_delete=models.CASCADE,
+    )
+
+    id_oferta_laboral = models.ForeignKey(
+        Oferta_Laboral,
         on_delete=models.CASCADE,
     )
 
     def __str__(self):
-        return '%s en la empresa "%s"' % (self.informacion_laboral.cargo_ocupar,
-                                          self.empresa.nombre_empresa)
+        return str(self.id_cuenta)
 
 
 class Encuesta_Laboral(models.Model):
