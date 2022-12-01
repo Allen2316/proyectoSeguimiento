@@ -1,0 +1,42 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% block tituloLista %}
+<h1>Lista de Mejores Graduados</h1>
+{% endblock %}
+
+{% block thead %}
+<tr>
+    <th>Nota de Grado</th>
+    <th>Estudiante</th>
+    <th>Periodo Academico</th>
+    <th>Opciones</th>
+</tr>
+{% endblock thead %}
+
+{% block tbody %}
+
+
+{% if object_list %}
+{% for graduado in object_list %}
+<tr>
+    <td>{{graduado.nota_Grado}}</td>
+    <td>{{graduado.estudiante}}</td>
+    <td>{{graduado.periodo_academico}}</td>
+    <td><a href="" class="btn btn-warning"><i class="fas fa-edit"></i></a><a href="" class="btn btn-danger"><i
+                class="fas fa-trash-alt"></i></a></td>
+</tr>
+{% endfor %}
+{% else %}
+<td>No existe ningun registro de mejor graduado</td>
+{% endif %}
+
+{% endblock tbody %}
+
+{% block actualizarTbl%}
+<div class="section-footer bg-whitesmoke br">
+    <a class="btn btn-success" href="{% url 'lista_mejor_graduado' %}" style="cursor:pointer; color:white;"><i
+            class="fas fa-sync-alt"></i>
+        Actualizar</a>
+</div>
+{% endblock %}

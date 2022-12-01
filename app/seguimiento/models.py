@@ -1,4 +1,5 @@
 from django.db import models
+import calendar
 
 # Create your models here.
 
@@ -17,7 +18,7 @@ class Empresa(models.Model):
 class Informacion_laboral(models.Model):
     id_informacion_oferta_laboral = models.AutoField(primary_key=True)
     cargo_ocupar = models.CharField(max_length=50, null=False)
-    remuneracion_economica = models.IntegerField(null=False)
+    remuneracion_economica = models.DecimalField(max_digits=6, decimal_places=2,null=False)
     actividades_desempenar = models.TextField(max_length=50, null=False)
     ciudad = models.CharField(max_length=50, null=False)
 
@@ -72,8 +73,8 @@ class Oferta_Laboral(models.Model):
     )
 
     def __str__(self):
-        return '%s en la empresa "%s"' % (self.informacion_laboral.cargo_ocupar,
-                                          self.empresa.nombre_empresa)
+        return '%s en la empresa "%s"' % (self.informacion_laboral,
+                                          self.empresa)
 
 
 class Cuenta(models.Model):
@@ -133,11 +134,12 @@ class Eleccion(models.Model):
 
 class Periodo_Academico(models.Model):
     id_periodo_academico = models.AutoField(primary_key=True)
-    fecha_incio = models.DateTimeField('Fecha Incio', null=False)
+    fecha_inicio = models.DateTimeField('Fecha Incio', null=False)
     fecha_fin = models.DateTimeField('Fecha Fin', null=False)
 
     def __str__(self):
-        return str(self.id_periodo_academico)
+
+        return '%s, %s - %s, %s' % (calendar.month_name[self.fecha_inicio.month], self.fecha_inicio.year, calendar.month_name[self.fecha_fin.month], self.fecha_fin.year)
 
 
 class Mejor_Graduado(models.Model):
@@ -151,7 +153,7 @@ class Mejor_Graduado(models.Model):
         Periodo_Academico,
         on_delete=models.CASCADE,
     )
-    nota_Grado = models.IntegerField(null=False)
+    nota_Grado = models.DecimalField(max_digits=5, decimal_places=2, null=False)
 
     def __str__(self):
         return str(self.id_mejor_graduado)

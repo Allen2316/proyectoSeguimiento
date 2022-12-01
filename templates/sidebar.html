@@ -1,0 +1,76 @@
+{% block content %}
+<div class="main-sidebar">
+    <aside id="sidebar-wrapper">
+        <div class="sidebar-brand">
+            <a href="{% url 'index' %}">Stisla</a>
+        </div>
+        <div class="sidebar-brand sidebar-brand-sm">
+            <a href="{% url 'index' %}">St</a>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="menu-header">Inicio</li>
+            <li><a class="nav-link" href="{% url 'index' %}"><i class="fas fa-fire"></i> <span>Inicio</span></a></li>
+            <li class="menu-header">Administración</li>
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Carrera</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{% url 'registro_carrera' %}">Nueva Carrera</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_carrera' %}">Lista de Carreras</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Periodo Académico</span></a>
+                <ul class="dropdown-menu">                    
+                    <li><a class="nav-link" href="{% url 'registro_periodo_academico' %}">Nueva Periodo Académico</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_periodo_academico' %}">Lista de Periodos Académicos</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Estudiante</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{% url 'registro_estudiante' %}">Nuevo Estudiante</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_estudiante' %}">Lista Estudiantes</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Mejor Graduado</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{% url 'registro_mejor_graduado' %}">Nuevo</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_mejor_graduado' %}">Lista</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Empresa</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{% url 'registro_empresa' %}">Nueva Empresa</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_empresa' %}">Lista de Empresas</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Oferta Laboral</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{% url 'registro_oferta_laboral' %}">Nueva Oferta</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_oferta_laboral' %}">Lista de Ofertas</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Encuesta Laboral</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="#">Nueva Encuesta</a></li>
+                    <li><a class="nav-link" href="#">Lista de Encuestas</a></li>
+                </ul>
+            </li>
+            
+            
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Hojas de Vida</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="#">Lista de hojas de vida</a></li>
+                    <li><a class="nav-link" href="#">Nueva hoja de vida</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </aside>
+</div>
+{% endblock content %}

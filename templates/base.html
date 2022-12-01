@@ -7,6 +7,11 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <title>Django Stisla</title>
 
+  {% load static %}
+
+  {% block scripts %}
+  
+  
   <!-- General CSS Files -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -20,22 +25,30 @@
   <link rel="stylesheet" href="{% static 'assets/css/components.css' %}">
   <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
   <!-- <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}"> -->
+  {% endblock %}
 </head>
 
 <body>
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
 
-      {% include 'includes/header.html' %}
-      {% include 'includes/sidebar.html' %}
+      {% include 'header.html' %}
+      {% include 'sidebar.html' %}
       <div class="main-content">
         {% block content %}
+
         {% endblock content %}
       </div>
-      {% include 'includes/footer.html' %}
+      {% include 'footer.html' %}
     </div>
   </div>
 
+
+
+  
+
+  
+  {% block javascript %}
   <!-- General JS Scripts -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -54,6 +67,8 @@
   <script src="{% static 'assets/js/scripts.js' %}"></script>
   <script src="{% static 'assets/js/custom.js' %}"></script>
 
+  
+  {% endblock %}
   <!-- Page Specific JS File -->
   <!-- <script src="{% static 'assets/js/page/index-0.js' %}"></script> -->
   <!-- <script src="{% static 'assets/js/page/bootstrap.modal.js' %}"></script> -->

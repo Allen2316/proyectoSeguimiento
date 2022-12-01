@@ -1,0 +1,44 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% block tituloLista %}
+<h1>Lista de Empresas</h1>
+{% endblock %}
+
+{% block thead %}
+<tr>
+    <th>Nombre</th>
+    <th>Direccion</th>
+    <th>Ubicacion</th>
+    <th>Contacto</th>
+    <th>Opciones</th>
+</tr>
+{% endblock thead %}
+
+{% block tbody %}
+
+
+{% if object_list %}
+{% for empresa in object_list %}
+<tr>
+    <td>{{empresa.nombre_empresa}}</td>
+    <td>{{empresa.direccion}}</td>
+    <td>{{empresa.ubicacion}}</td>
+    <td>{{empresa.contacto}}</td>
+    <td><a href="" class="btn btn-warning"><i class="fas fa-edit"></i></a><a href="" class="btn btn-danger"><i
+                class="fas fa-trash-alt"></i></a></td>
+</tr>
+{% endfor %}
+{% else %}
+<td>No existe ningun registro de empresa</td>
+{% endif %}
+
+{% endblock tbody %}
+
+{% block actualizarTbl%}
+<div class="section-footer bg-whitesmoke br">
+    <a class="btn btn-success" href="{% url 'lista_empresa' %}" style="cursor:pointer; color:white;"><i
+            class="fas fa-sync-alt"></i>
+        Actualizar</a>
+</div>
+{% endblock %}
