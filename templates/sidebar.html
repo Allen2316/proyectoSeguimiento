@@ -56,8 +56,8 @@
             <li class="dropdown">
                 <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Encuesta Laboral</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="#">Nueva Encuesta</a></li>
-                    <li><a class="nav-link" href="#">Lista de Encuestas</a></li>
+                    <li><a class="nav-link" href="{% url 'registro_encuesta_laboral' %}">Nueva Encuesta</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_encuesta_laboral' %}">Lista de Encuestas</a></li>
                 </ul>
             </li>
             
@@ -65,8 +65,8 @@
             <li class="dropdown">
                 <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Hojas de Vida</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="#">Lista de hojas de vida</a></li>
-                    <li><a class="nav-link" href="#">Nueva hoja de vida</a></li>
+                    <li><a class="nav-link" href="{% url 'registro_hoja_de_vida' %}">Nueva hoja de vida</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_hoja_de_vida' %}">Lista de hojas de vida</a></li>
                 </ul>
             </li>
         </ul>

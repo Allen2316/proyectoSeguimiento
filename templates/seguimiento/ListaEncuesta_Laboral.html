@@ -1,0 +1,40 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% block tituloLista %}
+<h1>Lista de Encuestas Laborales</h1>
+{% endblock %}
+
+{% block thead %}
+<tr>
+    <th>Fecha Encuesta </th>
+    <th>Oferta Laboral</th>        
+    <th>Opciones</th>
+</tr>
+{% endblock thead %}
+
+{% block tbody %}
+
+
+{% if object_list %}
+{% for encuesta in object_list %}
+<tr>
+    <td>{{encuesta.fecha_pub}}</td>
+    <td>{{encuesta.oferta_laboral}}</td>    
+    <td><a href="" class="btn btn-warning"><i class="fas fa-edit"></i></a><a href="" class="btn btn-danger"><i
+                class="fas fa-trash-alt"></i></a></td>
+</tr>
+{% endfor %}
+{% else %}
+<td>No existe ningun registro de Encuestas</td>
+{% endif %}
+
+{% endblock tbody %}
+
+{% block actualizarTbl%}
+<div class="section-footer bg-whitesmoke br">
+    <a class="btn btn-success" href="{% url 'lista_oferta_laboral' %}" style="cursor:pointer; color:white;"><i
+            class="fas fa-sync-alt"></i>
+        Actualizar</a>
+</div>
+{% endblock %}

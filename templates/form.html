@@ -62,12 +62,67 @@
               {% endfor %}
 
               {% if form2 %}
+              {% block tituloFrm2 %}
+              {% endblock %}
               {% for field in form2.visible_fields %}
               <div class="form-group">
                 <label for='name'>{{ field.label }}</label>
                 {{ field }}
               </div>
-              {% endfor %}
+              {% endfor %}              
+              {% endif %}
+                     
+              {% if tam > 2 %}
+              {% block tituloFrm3 %}
+              {% endblock %}
+            
+              {% for field in form3.visible_fields %}
+              <div class="form-group">
+                <label for='name'>{{ field.label }}</label>
+                {{ field }}
+              </div>
+              {% endfor %}             
+              
+              {% block tituloFrm4 %}
+              {% endblock %}
+
+              {% for field in form4.visible_fields %}
+              <div class="form-group">
+                <label for='name'>{{ field.label }}</label>
+                {{ field }}
+              </div>
+              {% endfor %}              
+
+              {% block tituloFrm5 %}
+              {% endblock %} 
+
+              {% for field in form5.visible_fields %}
+              <div class="form-group">
+                <label for='name'>{{ field.label }}</label>
+                {{ field }}
+              </div>
+              {% endfor %}        
+              
+              {% block tituloFrm6 %}
+              {% endblock %}
+
+              {% for field in form6.visible_fields %}
+              <div class="form-group">
+                <label for='name'>{{ field.label }}</label>
+                {{ field }}
+              </div>
+              {% endfor %}          
+              
+              {% block tituloFrm7 %}
+              {% endblock %}
+
+              {% for field in form7.visible_fields %}
+              <div class="form-group">
+                <label for='name'>{{ field.label }}</label>
+                {{ field }}
+              </div>
+              {% endfor %}              
+
               {% endif %}
               <div>
                 <button type="submit" class="btn btn-success">

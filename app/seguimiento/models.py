@@ -18,7 +18,8 @@ class Empresa(models.Model):
 class Informacion_laboral(models.Model):
     id_informacion_oferta_laboral = models.AutoField(primary_key=True)
     cargo_ocupar = models.CharField(max_length=50, null=False)
-    remuneracion_economica = models.DecimalField(max_digits=6, decimal_places=2,null=False)
+    remuneracion_economica = models.DecimalField(
+        max_digits=6, decimal_places=2, null=False)
     actividades_desempenar = models.TextField(max_length=50, null=False)
     ciudad = models.CharField(max_length=50, null=False)
 
@@ -153,7 +154,8 @@ class Mejor_Graduado(models.Model):
         Periodo_Academico,
         on_delete=models.CASCADE,
     )
-    nota_Grado = models.DecimalField(max_digits=5, decimal_places=2, null=False)
+    nota_Grado = models.DecimalField(
+        max_digits=5, decimal_places=2, null=False)
 
     def __str__(self):
         return str(self.id_mejor_graduado)
@@ -177,7 +179,7 @@ class Logros_Personales(models.Model):
         on_delete=models.CASCADE,
     )
     tipo_logro = models.CharField(max_length=50, null=False)
-    descripcion = models.TextField(max_length=50, null=False)
+    descripcion = models.TextField(max_length=100, null=False)
 
     def __str__(self):
         return str(self.id_logros_personales)
@@ -189,7 +191,7 @@ class Preferencias_Laborales(models.Model):
         Hoja_de_vida,
         on_delete=models.CASCADE,
     )
-    sector = models.CharField(max_length=10, null=False)
+    sector = models.CharField(max_length=100, null=False)
     aspiracion_salarial = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
@@ -202,11 +204,11 @@ class Capacitaciones(models.Model):
         Hoja_de_vida,
         on_delete=models.CASCADE,
     )
-    institucion = models.CharField(max_length=10, null=False)
-    tipo_de_evento = models.CharField(max_length=10, null=False)
-    area_de_estudio = models.CharField(max_length=10, null=False)
-    nombre_de_evento = models.CharField(max_length=10, null=False)
-    tipo_de_certificado = models.CharField(max_length=10, null=False)
+    institucion = models.CharField(max_length=100, null=False)
+    tipo_de_evento = models.CharField(max_length=100, null=False)
+    area_de_estudio = models.CharField(max_length=100, null=False)
+    nombre_de_evento = models.CharField(max_length=100, null=False)
+    tipo_de_certificado = models.CharField(max_length=100, null=False)
     fecha_desde = models.DateField(null=False)
     fecha_hasta = models.DateField(null=False)
     dias = models.CharField(max_length=10, null=False)
@@ -217,19 +219,24 @@ class Capacitaciones(models.Model):
 
 
 class Experiencia_Laboral(models.Model):
+    lista_eleccion = (
+        (False, 'No'),
+        (True, 'Si'),
+    )
     id_experiencia_laboral = models.AutoField(primary_key=True)
     hoja_de_vida = models.ForeignKey(
         Hoja_de_vida,
         on_delete=models.CASCADE,
     )
-    institucion = models.CharField(max_length=10, null=False)
-    tipo_de_institucion = models.CharField(max_length=10, null=False)
-    area_de_trabajo = models.CharField(max_length=10, null=False)
-    puesto = models.CharField(max_length=10, null=False)
-    actividades = models.CharField(max_length=10, null=False)
+    institucion = models.CharField(max_length=100, null=False)
+    tipo_de_institucion = models.CharField(max_length=100, null=False)
+    area_de_trabajo = models.CharField(max_length=100, null=False)
+    puesto = models.CharField(max_length=100, null=False)
+    actividades = models.CharField(max_length=100, null=False)
     fecha_desde = models.DateField("Desde", null=False)
     fecha_hasta = models.DateField("Hasta", null=False)
-    trabaja_actualmente_en_este_lugar = models.BooleanField(default=False)
+    trabaja_actualmente_en_este_lugar = models.BooleanField(
+        choices=lista_eleccion, default=False)
 
     def __str__(self):
         return self.puesto
@@ -241,10 +248,10 @@ class Instruccion_formal(models.Model):
         Hoja_de_vida,
         on_delete=models.CASCADE,
     )
-    nivel_de_instruccion = models.CharField(max_length=10, null=False)
-    instruccion_educativa = models.CharField(max_length=10, null=False)
-    titulo_obtenido = models.CharField(max_length=10, null=False)
-    no_del_registro_senescyt = models.CharField(max_length=10, null=False)
+    nivel_de_instruccion = models.CharField(max_length=100, null=False)
+    instruccion_educativa = models.CharField(max_length=100, null=False)
+    titulo_obtenido = models.CharField(max_length=100, null=False)
+    no_del_registro_senescyt = models.CharField(max_length=100, null=False)
 
     def __str__(self):
         return self.titulo_obtenido
@@ -256,9 +263,9 @@ class Referencias_Personales(models.Model):
         Hoja_de_vida,
         on_delete=models.CASCADE,
     )
-    nombres = models.CharField(max_length=10, null=False)
+    nombres = models.CharField(max_length=100, null=False)
     telefono = models.IntegerField(null=False)
-    correo = models.EmailField(max_length=50, unique=True, null=False)
+    correo = models.EmailField(max_length=100, unique=True, null=False)
 
     def __str__(self):
         return self.nombres
