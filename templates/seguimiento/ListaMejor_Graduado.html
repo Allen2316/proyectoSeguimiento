@@ -23,7 +23,7 @@
     <td>{{graduado.nota_Grado}}</td>
     <td>{{graduado.estudiante}}</td>
     <td>{{graduado.periodo_academico}}</td>
-    <td><a href="" class="btn btn-warning"><i class="fas fa-edit"></i></a><a href="" class="btn btn-danger"><i
+    <td><a href="{% url 'editar_mejor_graduado' graduado.id_mejor_graduado %}" class="btn btn-warning"><i class="fas fa-edit"></i></a><a href="{% url 'eliminar_mejor_graduado' graduado.id_mejor_graduado %}" class="btn btn-danger"><i
                 class="fas fa-trash-alt"></i></a></td>
 </tr>
 {% endfor %}

@@ -21,7 +21,8 @@
 <tr>
     <td>{{oferta.informacion_laboral}}</td>
     <td>{{oferta.empresa}}</td>    
-    <td><a href="" class="btn btn-warning"><i class="fas fa-edit"></i></a><a href="" class="btn btn-danger"><i
+    <td><a href="{% url 'editar_oferta_laboral' oferta.id_oferta_laboral %}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_oferta_laboral' oferta.id_oferta_laboral %}" class="btn btn-danger"><i
                 class="fas fa-trash-alt"></i></a></td>
 </tr>
 {% endfor %}

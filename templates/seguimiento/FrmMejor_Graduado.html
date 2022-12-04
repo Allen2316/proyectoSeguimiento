@@ -3,3 +3,9 @@
 {% block tituloFrm %}
 <h1>Mejor Graduado</h1>
 {% endblock %}
+
+{% block volver %}
+<a href="{% url 'lista_mejor_graduado' %}" class="btn btn-danger">
+    <i class="fas fa-window-close"></i> Volver
+  </a>
+{% endblock volver %}

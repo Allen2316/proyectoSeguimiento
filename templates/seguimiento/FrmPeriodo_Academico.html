@@ -3,3 +3,9 @@
 {% block tituloFrm %}
 <h1>Periodo Academico</h1>
 {% endblock %}
+
+{% block volver %}
+<a href="{% url 'lista_periodo_academico' %}" class="btn btn-danger">
+    <i class="fas fa-window-close"></i> Volver
+  </a>
+{% endblock volver %}

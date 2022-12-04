@@ -27,7 +27,8 @@
     {% elif carrera.estado == 'E' %}
     <td>Ejecutandose</td>
     {% endif %}
-    <td><a href="" class="btn btn-warning"><i class="fas fa-edit"></i></a><a href="" class="btn btn-danger"><i
+    <td><a href="{% url 'editar_carrera' carrera.id_carrera %}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_carrera' carrera.id_carrera %}" class="btn btn-danger"><i
                 class="fas fa-trash-alt"></i></a></td>
 </tr>
 {% endfor %}

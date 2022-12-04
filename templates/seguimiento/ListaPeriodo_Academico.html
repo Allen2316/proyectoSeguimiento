@@ -8,21 +8,22 @@
 {% block thead %}
 <tr>
     <th>Fecha de Inicio</th>
-    <th>Fecha de finalización</th>    
- </tr>
+    <th>Fecha de finalización</th>
+</tr>
 {% endblock thead %}
 
 {% block tbody %}
 
 
 {% if object_list %}
-{% for estudiante in object_list %}
+{% for pAcademico in object_list %}
 <tr>
-    <td>{{estudiante.fecha_inicio}}</td>
-    <td>{{estudiante.fecha_fin}}</td>
-    
-    <td><a href="" class="btn btn-warning"><i class="fas fa-edit"></i></a><a href="" class="btn btn-danger"><i
-                class="fas fa-trash-alt"></i></a></td>
+    <td>{{pAcademico.fecha_inicio}}</td>
+    <td>{{pAcademico.fecha_fin}}</td>
+
+    <td><a href="{% url 'editar_periodo_academico' pAcademico.id_periodo_academico %}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_periodo_academico' pAcademico.id_periodo_academico %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+    </td>
 </tr>
 {% endfor %}
 {% else %}

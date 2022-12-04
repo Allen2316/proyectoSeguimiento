@@ -1,6 +1,11 @@
 {% extends 'form.html' %}
 
-{% block titulo %}
-<h1>Empresa</h1>
+{% block tituloFrm %}
+<h1>Oferta Laboral</h1>
 {% endblock %}
 
+{% block volver %}
+<a href="{% url 'lista_oferta_laboral' %}" class="btn btn-danger">
+    <i class="fas fa-window-close"></i> Volver
+  </a>
+{% endblock volver %}

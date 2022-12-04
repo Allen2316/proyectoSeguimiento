@@ -3,3 +3,9 @@
 {% block tituloFrm %}
 <h1>Estudiante</h1>
 {% endblock %}
+
+{% block volver %}
+<a href="{% url 'lista_estudiante' %}" class="btn btn-danger">
+    <i class="fas fa-window-close"></i> Volver
+  </a>
+{% endblock volver %}

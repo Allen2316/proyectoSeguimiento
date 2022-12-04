@@ -226,9 +226,6 @@ class RegistrarHoja_de_vida(CreateView):
         context['tam'] = 7
         return context
 
-
-
-
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST)
@@ -240,9 +237,9 @@ class RegistrarHoja_de_vida(CreateView):
         form7 = self.sth_form_class(request.POST)
 
         if form.is_valid() and form2.is_valid() and form3.is_valid() and form4.is_valid() and form5.is_valid() and form6.is_valid() and form7.is_valid():
-            logros_personales = form2.save(commit=False)                  
+            logros_personales = form2.save(commit=False)
             logros_personales.hoja_de_vida = form.save()
-            
+
             preferencias_laborales = form3.save(commit=False)
             preferencias_laborales.hoja_de_vida = form.save()
 
@@ -256,7 +253,7 @@ class RegistrarHoja_de_vida(CreateView):
             instruccion_formal.hoja_de_vida = form.save()
 
             referencias_personales = form7.save(commit=False)
-            referencias_personales.hoja_de_vida = form.save() 
+            referencias_personales.hoja_de_vida = form.save()
 
             logros_personales.save()
             preferencias_laborales.save()
@@ -269,13 +266,117 @@ class RegistrarHoja_de_vida(CreateView):
         else:
             return self.render_to_response(self.get_context_data(form=form, form2=form2, form3=form3, form4=form4, form5=form5, form6=form6, form7=form7,))
 
+
 # ediciones
+
+class EditarCarrera(UpdateView):
+    model = models.Carrera
+    form_class = forms.FrmCarrera
+    template_name = 'seguimiento/FrmCarrera.html'
+    success_url = reverse_lazy('lista_carrera')
+
+
+class EditarPeriodoAcademico(UpdateView):
+    model = models.Periodo_Academico
+    form_class = forms.FrmPeriodo_Academico
+    template_name = 'seguimiento/FrmPeriodo_Academico.html'
+    success_url = reverse_lazy('lista_periodo_academico')
+
+
+class EditarEstudiante(UpdateView):
+    model = models.Estudiante
+    form_class = forms.FrmEstudiante
+    template_name = 'seguimiento/FrmEstudiante.html'
+    success_url = reverse_lazy('lista_estudiante')
+
+
+class EditarMejorGraduado(UpdateView):
+    model = models.Mejor_Graduado
+    form_class = forms.FrmMejor_Graduado
+    template_name = 'seguimiento/FrmMejor_Graduado.html'
+    success_url = reverse_lazy('lista_mejor_graduado')
+
+
+class EditarEmpresa(UpdateView):
+    model = models.Empresa
+    form_class = forms.FrmEmpresa
+    template_name = 'seguimiento/FrmEmpresa.html'
+    success_url = reverse_lazy('lista_empresa')
+
+
+class EditarOfertaLaboral(UpdateView):
+    model = models.Oferta_Laboral
+    form_class = forms.FrmOferta_Laboral    
+    template_name = 'seguimiento/FrmOferta_Laboral.html'
+    success_url = reverse_lazy('lista_oferta_laboral')
+
+
+class EditarEncuesta(UpdateView):
+    model = models.Encuesta_Laboral
+    form_class = forms.FrmEncuesta_Laboral    
+    template_name = 'seguimiento/FrmEncuesta_Laboral.html'
+    success_url = reverse_lazy('lista_encuesta_laboral')
+
+
+class EditarHoja_de_vida(UpdateView):
+    model = models.Hoja_de_vida
+    form_class = forms.FrmHoja_de_vida    
+    template_name = 'seguimiento/FrmHoja_de_vida.html'
+    success_url = reverse_lazy('lista_hoja_de_vida')
 
 
 # eliminaciones
 
 
+class EliminarCarrera(DeleteView):
+    model = models.Carrera
+    template_name = 'seguimiento/EliminarCarrera.html'
+    success_url = reverse_lazy('lista_carrera')
+
+
+class EliminarPeriodoAcademico(DeleteView):
+    model = models.Periodo_Academico
+    template_name = 'seguimiento/EliminarPeriodo_Academico.html'
+    success_url = reverse_lazy('lista_periodo_academico')
+
+
+class EliminarEstudiante(DeleteView):
+    model = models.Estudiante
+    template_name = 'seguimiento/EliminarEstudiante.html'
+    success_url = reverse_lazy('lista_estudiante')
+
+
+class EliminarMejorGraduado(DeleteView):
+    model = models.Mejor_Graduado
+    template_name = 'seguimiento/EliminarMejor_Graduado.html'
+    success_url = reverse_lazy('lista_mejor_graduado')
+
+
+class EliminarEmpresa(DeleteView):
+    model = models.Empresa
+    template_name = 'seguimiento/EliminarEmpresa.html'
+    success_url = reverse_lazy('lista_empresa')
+
+
+class EliminarOfertaLaboral(DeleteView):
+    model = models.Oferta_Laboral
+    template_name = 'seguimiento/EliminarOferta_Laboral.html'
+    success_url = reverse_lazy('lista_oferta_laboral')
+
+class EliminarEncuesta(DeleteView):
+    model = models.Encuesta_Laboral
+    template_name = 'seguimiento/EliminarEncuesta_Laboral.html'
+    success_url = reverse_lazy('lista_encuesta_laboral')
+
+
+class EliminarHoja_de_vida(DeleteView):
+    model = models.Hoja_de_vida
+    template_name = 'seguimiento/EliminarHoja_de_vida.html'
+    success_url = reverse_lazy('lista_hoja_de_vida')
+
+
 # listados
+
 
 class ListarCarrera(ListView):
     model = models.Carrera

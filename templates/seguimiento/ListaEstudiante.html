@@ -8,7 +8,7 @@
 {% block thead %}
 <tr>
     <th>Nombre</th>
-    <th>Apellidos</th>    
+    <th>Apellidos</th>
     <th>Telefono</th>
     <th>Estado</th>
     <th>Carrera</th>
@@ -20,15 +20,22 @@
 
 
 {% if object_list %}
-{% for graduado in object_list %}
+{% for estudiante in object_list %}
 <tr>
-    <td>{{graduado.nombres}}</td>
-    <td>{{graduado.apellidos}}</td>
-    <td>{{graduado.telefono}}</td>
-    
-    <td>{{graduado.carrera}}</td>
-    <td><a href="" class="btn btn-warning"><i class="fas fa-edit"></i></a><a href="" class="btn btn-danger"><i
-                class="fas fa-trash-alt"></i></a></td>
+    <td>{{estudiante.nombres}}</td>
+    <td>{{estudiante.apellidos}}</td>
+    <td>{{estudiante.telefono}}</td>
+    {% if estudiante.estado == 'G' %}
+        <td>Graduado</td>
+    {% else %}
+    <td>Egresado</td>
+    {% endif %}
+    <td>{{estudiante.carrera}}</td>
+    <td><a href="{% url 'editar_estudiante' estudiante.id_estudiante %}" class="btn btn-warning"><i
+                class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_estudiante' estudiante.id_estudiante %}" class="btn btn-danger"><i
+                class="fas fa-trash-alt"></i></a>
+    </td>
 </tr>
 {% endfor %}
 {% else %}
@@ -39,7 +46,7 @@
 
 {% block actualizarTbl%}
 <div class="section-footer bg-whitesmoke br">
-    <a class="btn btn-success" href="{% url 'lista_mejor_graduado' %}" style="cursor:pointer; color:white;"><i
+    <a class="btn btn-success" href="{% url 'lista_estudiante' %}" style="cursor:pointer; color:white;"><i
             class="fas fa-sync-alt"></i>
         Actualizar</a>
 </div>

@@ -25,7 +25,8 @@
     <td>{{empresa.direccion}}</td>
     <td>{{empresa.ubicacion}}</td>
     <td>{{empresa.contacto}}</td>
-    <td><a href="" class="btn btn-warning"><i class="fas fa-edit"></i></a><a href="" class="btn btn-danger"><i
+    <td><a href="{% url 'editar_empresa' empresa.id_empresa %}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_empresa' empresa.id_empresa %}" class="btn btn-danger"><i
                 class="fas fa-trash-alt"></i></a></td>
 </tr>
 {% endfor %}
