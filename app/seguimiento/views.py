@@ -187,6 +187,87 @@ class RegistrarEncuesta(CreateView):
 
 
 class RegistrarHojaDeVida(CreateView):
+    model = models.Logros_Personales
+    template_name = 'seguimiento/FrmHoja_de_vida.html'
+    form_class = forms.FrmHoja_de_vida
+    second_form_class = forms.FrmLogros_Personales1
+    t_form_class = forms.FrmPreferencias_Laborales1
+    f_form_class = forms.FrmCapacitaciones1
+    fth_form_class = forms.FrmExperiencia_Laboral1
+    s_form_class = forms.FrmInstruccion_formal1
+    sth_form_class = forms.FrmReferencias_Personales1
+
+    success_url = reverse_lazy('lista_hoja_de_vida')
+
+    def get_context_data(self, **kwargs):
+        context = super(RegistrarHojaDeVida,
+                        self).get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET)
+
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(self.request.GET)
+
+        if 'form3' not in context:
+            context['form3'] = self.t_form_class(self.request.GET)
+
+        if 'form4' not in context:
+            context['form4'] = self.f_form_class(self.request.GET)
+
+        if 'form5' not in context:
+            context['form5'] = self.fth_form_class(self.request.GET)
+
+        if 'form6' not in context:
+            context['form6'] = self.s_form_class(self.request.GET)
+
+        if 'form7' not in context:
+            context['form7'] = self.sth_form_class(self.request.GET)
+
+        context['tam'] = 7
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        form2 = self.second_form_class(request.POST)
+        form3 = self.t_form_class(request.POST)
+        form4 = self.f_form_class(request.POST)
+        form5 = self.fth_form_class(request.POST)
+        form6 = self.s_form_class(request.POST)
+        form7 = self.sth_form_class(request.POST)
+
+        if form.is_valid() and form2.is_valid() and form3.is_valid() and form4.is_valid() and form5.is_valid() and form6.is_valid() and form7.is_valid():
+            logros_personales = form2.save(commit=False)
+            logros_personales.hoja_de_vida = form.save()
+
+            preferencias_laborales = form3.save(commit=False)
+            preferencias_laborales.hoja_de_vida = form.save()
+
+            capacitaciones = form4.save(commit=False)
+            capacitaciones.hoja_de_vida = form.save()
+
+            experiencia_laboral = form5.save(commit=False)
+            experiencia_laboral.hoja_de_vida = form.save()
+
+            instruccion_formal = form6.save(commit=False)
+            instruccion_formal.hoja_de_vida = form.save()
+
+            referencias_personales = form7.save(commit=False)
+            referencias_personales.hoja_de_vida = form.save()
+
+            logros_personales.save()
+            preferencias_laborales.save()
+            capacitaciones.save()
+            experiencia_laboral.save()
+            instruccion_formal.save()
+            referencias_personales.save()
+
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form, form2=form2, form3=form3, form4=form4, form5=form5, form6=form6, form7=form7,))
+
+
+""" class RegistrarHojaDeVida(CreateView):
     model = models.Hoja_de_vida
     template_name = 'seguimiento/FrmHoja_de_vida.html'
     form_class = forms.FrmHoja_de_vida
@@ -205,7 +286,7 @@ class RegistrarHojaDeVida(CreateView):
             form.save()
             return HttpResponseRedirect(self.get_success_url())
         else:
-            return self.render_to_response(self.get_context_data(form=form))
+            return self.render_to_response(self.get_context_data(form=form)) """
 
 
 class RegistrarLogrosPersonales(CreateView):
@@ -393,17 +474,17 @@ class EditarOfertaLaboral(UpdateView):
     success_url = reverse_lazy('lista_oferta_laboral')
 
     def get_context_data(self, **kwargs):
-        contexto = super(EditarOfertaLaboral, self).get_context_data(**kwargs)
+        context = super(EditarOfertaLaboral, self).get_context_data(**kwargs)
         pk1 = self.kwargs.get('pk', 0)
         oferta = self.model.objects.get(id_oferta_laboral=pk1)
         info = self.second_model.objects.get(pk=oferta.informacion_laboral.pk)
 
-        if 'form' not in contexto:
-            contexto['form'] = self.form_class()
+        if 'form' not in context:
+            context['form'] = self.form_class()
 
-        if 'form2' not in contexto:
-            contexto['form2'] = self.second_form_class(instance=info)
-        return contexto
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(instance=info)
+        return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
@@ -417,7 +498,7 @@ class EditarOfertaLaboral(UpdateView):
             form2.save()
             return HttpResponseRedirect(self.get_success_url())
         else:
-            return self.render_to_response(self.get_context_data(form=form, form2=form2))        
+            return self.render_to_response(self.get_context_data(form=form, form2=form2))
 
 
 class EditarEncuesta(UpdateView):
@@ -429,9 +510,115 @@ class EditarEncuesta(UpdateView):
 
 class EditarHojaDeVida(UpdateView):
     model = models.Hoja_de_vida
+    second_model = models.Logros_Personales
+    third_model = models.Preferencias_Laborales
+    four_model = models.Capacitaciones
+    five_model = models.Experiencia_Laboral
+    six_model = models.Instruccion_formal
+    seven_model = models.Referencias_Personales
+
     form_class = forms.FrmHoja_de_vida
+    second_form_class = forms.FrmLogros_Personales1
+    third_form_class = forms.FrmPreferencias_Laborales1
+    four_form_class = forms.FrmCapacitaciones1
+    five_form_class = forms.FrmExperiencia_Laboral1
+    six_form_class = forms.FrmInstruccion_formal1
+    seven_form_class = forms.FrmReferencias_Personales1
+
     template_name = 'seguimiento/FrmHoja_de_vida.html'
     success_url = reverse_lazy('lista_hoja_de_vida')
+
+    def get_context_data(self, **kwargs):
+        context = super(EditarHojaDeVida,
+                        self).get_context_data(**kwargs)
+
+        id_hoja = self.kwargs.get('pk', 0)
+        hoja = self.model.objects.get(pk=id_hoja)
+        logro = self.second_model.objects.filter(hoja_de_vida=hoja.pk).first()
+
+        preferencia = self.third_model.objects.filter(
+            hoja_de_vida=hoja.pk).first()
+
+        capacitacion = self.four_model.objects.filter(
+            hoja_de_vida=hoja.pk).first()
+
+        experiencia = self.five_model.objects.filter(
+            hoja_de_vida=hoja.pk).first()
+
+        instruccion = self.six_model.objects.filter(
+            hoja_de_vida=hoja.pk).first()
+
+        referencia = self.seven_model.objects.filter(
+            hoja_de_vida=hoja.pk).first()
+
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET)
+
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(instance=logro)
+
+        if 'form3' not in context:
+            context['form3'] = self.third_form_class(instance=preferencia)
+
+        if 'form4' not in context:
+            context['form4'] = self.four_form_class(instance=capacitacion)
+
+        if 'form5' not in context:
+            context['form5'] = self.five_form_class(instance=experiencia)
+
+        if 'form6' not in context:
+            context['form6'] = self.six_form_class(instance=instruccion)
+
+        if 'form7' not in context:
+            context['form7'] = self.seven_form_class(instance=referencia)
+
+        context['tam'] = 7
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        id_hoja = kwargs['pk']
+        hoja = self.model.objects.get(pk=id_hoja)
+
+        logro = self.second_model.objects.get(hoja_de_vida=hoja.pk)
+
+        preferencia = self.third_model.objects.get(hoja_de_vida=hoja.pk)
+
+        capacitacion = self.four_model.objects.get(hoja_de_vida=hoja.pk)
+
+        experiencia = self.five_model.objects.get(hoja_de_vida=hoja.pk)
+
+        instruccion = self.six_model.objects.get(hoja_de_vida=hoja.pk)
+
+        referencia = self.seven_model.objects.get(hoja_de_vida=hoja.pk)
+
+        form = self.form_class(request.POST, instance=hoja)
+        form2 = self.second_form_class(request.POST, instance=logro)
+        form3 = self.third_form_class(request.POST, instance=preferencia)
+        form4 = self.four_form_class(request.POST, instance=capacitacion)
+        form5 = self.five_form_class(request.POST, instance=experiencia)
+        form6 = self.six_form_class(request.POST, instance=instruccion)
+        form7 = self.seven_form_class(request.POST, instance=referencia)
+
+        if form.is_valid() and form2.is_valid() and form3.is_valid() and form4.is_valid() and form5.is_valid() and form6.is_valid() and form7.is_valid():
+            form.save()
+            form2.save()
+            form3.save()
+            form4.save()
+            form5.save()
+            form6.save()
+            form7.save()
+
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form, form2=form2, form3=form3, form4=form4, form5=form5, form6=form6, form7=form7))
+
+
+""" class EditarHojaDeVida(UpdateView):
+    model = models.Hoja_de_vida
+    form_class = forms.FrmHoja_de_vida
+    template_name = 'seguimiento/FrmHoja_de_vida.html'
+    success_url = reverse_lazy('lista_hoja_de_vida') """
 
 
 class EditarLogrosPersonales(UpdateView):
