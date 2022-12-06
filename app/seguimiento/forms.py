@@ -202,45 +202,50 @@ class FrmHoja_de_vida(forms.ModelForm):
 class FrmLogros_Personales(forms.ModelForm):
     class Meta:
         model = Logros_Personales
-        fields = ['tipo_logro', 'descripcion']
+        fields = ['hoja_de_vida', 'tipo_logro', 'descripcion']
 
         labels = {
+            'hoja_de_vida': 'Hoja de vida',
             'tipo_logro': 'Tipo de logro',
             'descripcion': 'Descripcion',
-          
+
 
         }
 
         widgets = {
+            'hoja_de_vida': forms.Select(attrs={'class': 'form-control'}),
             'tipo_logro': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
-           
+
         }
 
 
 class FrmPreferencias_Laborales(forms.ModelForm):
     class Meta:
         model = Preferencias_Laborales
-        fields = ['sector', 'aspiracion_salarial']
+        fields = ['hoja_de_vida', 'sector', 'aspiracion_salarial']
 
         labels = {
+            'hoja_de_vida': 'Hoja de vida',
             'sector': 'Sector',
             'aspiracion_salarial': 'Aspiracion Salarial',
-          
+
 
         }
 
         widgets = {
+            'hoja_de_vida': forms.Select(attrs={'class': 'form-control'}),
             'sector': forms.TextInput(attrs={'class': 'form-control'}),
             'aspiracion_salarial': forms.TextInput(attrs={'class': 'form-control'}),
-          
+
         }
 
 
 class FrmCapacitaciones(forms.ModelForm):
     class Meta:
         model = Capacitaciones
-        fields = ['institucion',
+        fields = ['hoja_de_vida',
+                  'institucion',
                   'tipo_de_evento',
                   'area_de_estudio',
                   'nombre_de_evento',
@@ -249,9 +254,10 @@ class FrmCapacitaciones(forms.ModelForm):
                   'fecha_hasta',
                   'dias',
                   'horas',
-                ]
+                  ]
 
         labels = {
+            'hoja_de_vida': 'Hoja de vida',
             'institucion': 'Institucion',
             'tipo_de_evento': 'Tipo de evento',
             'area_de_estudio': 'Area de estudio',
@@ -261,11 +267,12 @@ class FrmCapacitaciones(forms.ModelForm):
             'fecha_hasta': 'Fecha hasta',
             'dias': 'Total de dias',
             'horas': 'Total de horas',
-          
+
 
         }
 
         widgets = {
+            'hoja_de_vida': forms.Select(attrs={'class': 'form-control'}),
             'institucion': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo_de_evento': forms.TextInput(attrs={'class': 'form-control'}),
             'area_de_estudio': forms.TextInput(attrs={'class': 'form-control'}),
@@ -275,14 +282,15 @@ class FrmCapacitaciones(forms.ModelForm):
             'fecha_hasta': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
             'dias': forms.NumberInput(attrs={'class': 'form-control'}),
             'horas': forms.NumberInput(attrs={'class': 'form-control'}),
-           
+
         }
 
 
 class FrmExperiencia_Laboral(forms.ModelForm):
     class Meta:
         model = Experiencia_Laboral
-        fields = ['institucion',
+        fields = ['hoja_de_vida',
+                  'institucion',
                   'tipo_de_institucion',
                   'area_de_trabajo',
                   'puesto',
@@ -290,9 +298,10 @@ class FrmExperiencia_Laboral(forms.ModelForm):
                   'fecha_desde',
                   'fecha_hasta',
                   'trabaja_actualmente_en_este_lugar',
-                 ]
+                  ]
 
         labels = {
+            'hoja_de_vida': 'Hoja de vida',
             'institucion': 'Institucion',
             'tipo_de_institucion': 'Tipo de Institucion',
             'area_de_trabajo': 'Area de trabajo',
@@ -301,11 +310,12 @@ class FrmExperiencia_Laboral(forms.ModelForm):
             'fecha_desde': 'Fecha desde',
             'fecha_hasta': 'Fecha hasta',
             'trabaja_actualmente_en_este_lugar': 'Trabaja actualmente en este lugar',
-           
+
 
         }
 
         widgets = {
+            'hoja_de_vida': forms.Select(attrs={'class': 'form-control'}),
             'institucion': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo_de_institucion': forms.TextInput(attrs={'class': 'form-control'}),
             'area_de_trabajo': forms.TextInput(attrs={'class': 'form-control'}),
@@ -313,57 +323,63 @@ class FrmExperiencia_Laboral(forms.ModelForm):
             'actividades': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha_desde': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
             'fecha_hasta': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'trabaja_actualmente_en_este_lugar': forms.Select(attrs={'class': 'form-control'}),            
-           
+            'trabaja_actualmente_en_este_lugar': forms.Select(attrs={'class': 'form-control'}),
+
         }
 
 
 class FrmInstruccion_formal(forms.ModelForm):
     class Meta:
         model = Instruccion_formal
-        fields = ['nivel_de_instruccion',
+        fields = ['hoja_de_vida',
+                  'nivel_de_instruccion',
                   'instruccion_educativa',
                   'titulo_obtenido',
-                  'no_del_registro_senescyt',                  
-                 ]
+                  'no_del_registro_senescyt',
+                  ]
 
         labels = {
+            'hoja_de_vida': 'Hoja de vida',
             'nivel_de_instruccion': 'Nivel de instruccion',
             'instruccion_educativa': 'Instruccion educativa',
             'titulo_obtenido': 'Titulo obtenido',
-            'no_del_registro_senescyt': 'Nro. del registro del senescyt',            
-            
+            'no_del_registro_senescyt': 'Nro. del registro del senescyt',
+
 
         }
 
         widgets = {
+            'hoja_de_vida': forms.Select(attrs={'class': 'form-control'}),
             'nivel_de_instruccion': forms.TextInput(attrs={'class': 'form-control'}),
             'instruccion_educativa': forms.TextInput(attrs={'class': 'form-control'}),
             'titulo_obtenido': forms.TextInput(attrs={'class': 'form-control'}),
-            'no_del_registro_senescyt': forms.TextInput(attrs={'class': 'form-control'}),                       
-           
+            'no_del_registro_senescyt': forms.TextInput(attrs={'class': 'form-control'}),
+
         }
 
 
 class FrmReferencias_Personales(forms.ModelForm):
     class Meta:
         model = Referencias_Personales
-        fields = ['nombres',
+        fields = ['hoja_de_vida',
+                  'nombres',
                   'telefono',
-                  'correo',                                 
+                  'correo',
                   ]
 
         labels = {
+            'hoja_de_vida': 'Hoja de vida',
             'nombres': 'Nombres',
             'telefono': 'Telefono',
-            'correo': 'Correo',            
-            
+            'correo': 'Correo',
+
 
         }
 
         widgets = {
+            'hoja_de_vida': forms.Select(attrs={'class': 'form-control'}),
             'nombres': forms.TextInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
-            'correo': forms.TextInput(attrs={'class': 'form-control'}),                                
-          
+            'correo': forms.TextInput(attrs={'class': 'form-control'}),
+
         }

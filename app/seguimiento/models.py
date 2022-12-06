@@ -243,7 +243,7 @@ class Experiencia_Laboral(models.Model):
 
 
 class Instruccion_formal(models.Model):
-    id_instruccion_laboral = models.AutoField(primary_key=True)
+    id_instruccion_formal = models.AutoField(primary_key=True)
     hoja_de_vida = models.ForeignKey(
         Hoja_de_vida,
         on_delete=models.CASCADE,

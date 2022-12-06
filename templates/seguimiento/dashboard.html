@@ -1,98 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-        <section class="section">
-            <div class="section-header">
-                <h1>Dashboard</h1>
-            </div>
-            <div class="section-body">
-                <h2 class="section-title">Ofertas laborales</h2>
-                <p class="section-lead">
-                  Listado de ofertas laborales
-                </p>
-    
-                <div class="row">
-                  <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card card-primary">
-                      <div class="card-header">
-                        <h4>Card Header</h4>
-                      </div>
-                      <div class="card-body">
-                        <p>Card <code>.card-primary</code></p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card card-secondary">
-                      <div class="card-header">
-                        <h4>Card Header</h4>
-                      </div>
-                      <div class="card-body">
-                        <p>Card <code>.card-secondary</code></p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card card-danger">
-                      <div class="card-header">
-                        <h4>Card Header</h4>
-                      </div>
-                      <div class="card-body">
-                        <p>Card <code>.card-danger</code></p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card card-warning">
-                      <div class="card-header">
-                        <h4>Card Header</h4>
-                      </div>
-                      <div class="card-body">
-                        <p>Card <code>.card-warning</code></p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card card-info">
-                      <div class="card-header">
-                        <h4>Card Header</h4>
-                      </div>
-                      <div class="card-body">
-                        <p>Card <code>.card-info</code></p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card card-success">
-                      <div class="card-header">
-                        <h4>Card Header</h4>
-                      </div>
-                      <div class="card-body">
-                        <p>Card <code>.card-success</code></p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card card-light">
-                      <div class="card-header">
-                        <h4>Card Header</h4>
-                      </div>
-                      <div class="card-body">
-                        <p>Card <code>.card-light</code></p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card card-dark">
-                      <div class="card-header">
-                        <h4>Card Header</h4>
-                      </div>
-                      <div class="card-body">
-                        <p>Card <code>.card-dark</code></p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
-        </section>
+
+
+<section class="section">
+  <div class="section-header">
+    <h1>Dashboard</h1>
+  </div>
+  <div class="section-body">
+    <h2 class="section-title">Ofertas laborales</h2>
+    <p class="section-lead">
+      Listado de ofertas laborales
+    </p>
+    <div class="row">
+      {% if object_list %}
+      {% for oferta in object_list %}
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h4>{{oferta.informacion_laboral}}</h4>
+          </div>
+
+          <div class="card-body">
+            <p>En la empresa: <code>{{oferta.empresa}}</code></p>            
+            <p>Ciudad: <b>{{oferta.informacion_laboral.ciudad}}</b></p> 
+            <p>Remuneración: <b>{{oferta.informacion_laboral.remuneracion_economica}}</b></p> 
+            <p>Actividades: <b>{{oferta.informacion_laboral.actividades_desempenar}}</b></p> 
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p>No existe ningun registro de ofertas laborales</p>
+      {% endif %}
     </div>
+</section>
+</div>
 {% endblock content %}

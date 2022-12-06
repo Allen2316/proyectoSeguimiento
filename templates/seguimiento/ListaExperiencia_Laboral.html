@@ -1,0 +1,52 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% block tituloLista %}
+<h1>Lista de Experiencia Laboral</h1>
+{% endblock %}
+
+{% block thead %}
+<tr>
+    <th>Hoja de vida</th>
+    <th>Institucion</th>
+    <th>Area de trabajo</th>
+    <th>Puesto</th>    
+    <th>Desde</th> 
+    <th>Hasta</th> 
+    <th>Opciones</th>
+</tr>
+{% endblock thead %}
+
+{% block tbody %}
+
+
+{% if object_list %}
+{% for experiencia in object_list %}
+<tr>
+    <td>{{experiencia.hoja_de_vida}}</td>
+    <td>{{experiencia.institucion}}</td>
+    <td>{{experiencia.area_de_trabajo}}</td>
+    <td>{{experiencia.puesto}}</td>
+    <td>{{experiencia.fecha_desde}}</td>
+    <td>{{experiencia.fecha_hasta}}</td>
+
+    <td><a href="{% url 'editar_experiencia_laboral' experiencia.id_experiencia_laboral %}" class="btn btn-warning"><i
+                class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_experiencia_laboral' experiencia.id_experiencia_laboral %}" class="btn btn-danger"><i
+                class="fas fa-trash-alt"></i></a>
+    </td>
+</tr>
+{% endfor %}
+{% else %}
+<td>No existe ningun registro de Experiencias</td>
+{% endif %}
+
+{% endblock tbody %}
+
+{% block actualizarTbl%}
+<div class="section-footer bg-whitesmoke br">
+    <a class="btn btn-success" href="{% url 'lista_logros_personales' %}" style="cursor:pointer; color:white;"><i
+            class="fas fa-sync-alt"></i>
+        Actualizar</a>
+</div>
+{% endblock %}

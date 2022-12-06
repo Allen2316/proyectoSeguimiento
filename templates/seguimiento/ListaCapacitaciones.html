@@ -1,0 +1,52 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% block tituloLista %}
+<h1>Lista de Capacitaciones</h1>
+{% endblock %}
+
+{% block thead %}
+<tr>
+    <th>Hoja de vida</th>
+    <th>Institucion</th>
+    <th>Nombre de evento</th>
+    <th>Tipo de certificado</th>    
+    <th>Desde</th> 
+    <th>Hasta</th> 
+    <th>Opciones</th>
+</tr>
+{% endblock thead %}
+
+{% block tbody %}
+
+
+{% if object_list %}
+{% for capacitacion in object_list %}
+<tr>
+    <td>{{capacitacion.hoja_de_vida}}</td>
+    <td>{{capacitacion.institucion}}</td>
+    <td>{{capacitacion.nombre_de_evento}}</td>
+    <td>{{capacitacion.tipo_de_certificado}}</td>
+    <td>{{capacitacion.fecha_desde}}</td>
+    <td>{{capacitacion.fecha_hasta}}</td>
+
+    <td><a href="{% url 'editar_capacitaciones' capacitacion.id_capacitaciones %}" class="btn btn-warning"><i
+                class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_capacitaciones' capacitacion.id_capacitaciones %}" class="btn btn-danger"><i
+                class="fas fa-trash-alt"></i></a>
+    </td>
+</tr>
+{% endfor %}
+{% else %}
+<td>No existe ningun registro de Capacitaciones</td>
+{% endif %}
+
+{% endblock tbody %}
+
+{% block actualizarTbl%}
+<div class="section-footer bg-whitesmoke br">
+    <a class="btn btn-success" href="{% url 'lista_logros_personales' %}" style="cursor:pointer; color:white;"><i
+            class="fas fa-sync-alt"></i>
+        Actualizar</a>
+</div>
+{% endblock %}

@@ -9,6 +9,7 @@
 <tr>
     <th>Cargo</th>
     <th>Empresa</th>        
+    <th>Sueldo</th> 
     <th>Opciones</th>
 </tr>
 {% endblock thead %}
@@ -21,6 +22,7 @@
 <tr>
     <td>{{oferta.informacion_laboral}}</td>
     <td>{{oferta.empresa}}</td>    
+    <td>{{oferta.informacion_laboral.remuneracion_economica}}</td> 
     <td><a href="{% url 'editar_oferta_laboral' oferta.id_oferta_laboral %}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
         <a href="{% url 'eliminar_oferta_laboral' oferta.id_oferta_laboral %}" class="btn btn-danger"><i
                 class="fas fa-trash-alt"></i></a></td>

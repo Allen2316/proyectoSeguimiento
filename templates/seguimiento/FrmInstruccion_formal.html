@@ -1,0 +1,11 @@
+{% extends 'form.html' %}
+
+{% block tituloFrm %}
+<h1>Instruccion Formal</h1>
+{% endblock %}
+
+{% block volver %}
+<a href="{% url 'lista_instruccion_formal' %}" class="btn btn-danger">
+    <i class="fas fa-window-close"></i> Volver
+  </a>
+{% endblock volver %}

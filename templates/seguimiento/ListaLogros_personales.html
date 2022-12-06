@@ -1,0 +1,46 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% block tituloLista %}
+<h1>Lista de Logros Personales</h1>
+{% endblock %}
+
+{% block thead %}
+<tr>
+    <th>Hoja de vida</th>
+    <th>Tipo de logro</th>
+    <th>Descripcion</th>    
+    <th>Opciones</th>
+</tr>
+{% endblock thead %}
+
+{% block tbody %}
+
+
+{% if object_list %}
+{% for logro in object_list %}
+<tr>
+    <td>{{logro.hoja_de_vida}}</td>
+    <td>{{logro.tipo_logro}}</td>
+    <td>{{logro.descripcion}}</td>
+
+    <td><a href="{% url 'editar_logros_personales' logro.id_logros_personales %}" class="btn btn-warning"><i
+                class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_logros_personales' logro.id_logros_personales %}" class="btn btn-danger"><i
+                class="fas fa-trash-alt"></i></a>
+    </td>
+</tr>
+{% endfor %}
+{% else %}
+<td>No existe ningun registro de Logros Personales</td>
+{% endif %}
+
+{% endblock tbody %}
+
+{% block actualizarTbl%}
+<div class="section-footer bg-whitesmoke br">
+    <a class="btn btn-success" href="{% url 'lista_logros_personales' %}" style="cursor:pointer; color:white;"><i
+            class="fas fa-sync-alt"></i>
+        Actualizar</a>
+</div>
+{% endblock %}

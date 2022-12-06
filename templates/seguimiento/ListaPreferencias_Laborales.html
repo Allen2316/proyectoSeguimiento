@@ -1,0 +1,46 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% block tituloLista %}
+<h1>Lista de Preferencias Laborales</h1>
+{% endblock %}
+
+{% block thead %}
+<tr>
+    <th>Hoja de vida</th>
+    <th>Sector</th>
+    <th>Aspiracion Salarial</th>    
+    <th>Opciones</th>
+</tr>
+{% endblock thead %}
+
+{% block tbody %}
+
+
+{% if object_list %}
+{% for preferencia in object_list %}
+<tr>
+    <td>{{preferencia.hoja_de_vida}}</td>
+    <td>{{preferencia.sector}}</td>
+    <td>{{preferencia.aspiracion_salarial}}</td>
+
+    <td><a href="{% url 'editar_preferencias_laborales' preferencia.id_preferencias_laborales %}" class="btn btn-warning"><i
+                class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_preferencias_laborales' preferencia.id_preferencias_laborales %}" class="btn btn-danger"><i
+                class="fas fa-trash-alt"></i></a>
+    </td>
+</tr>
+{% endfor %}
+{% else %}
+<td>No existe ningun registro de Logros Personales</td>
+{% endif %}
+
+{% endblock tbody %}
+
+{% block actualizarTbl%}
+<div class="section-footer bg-whitesmoke br">
+    <a class="btn btn-success" href="{% url 'lista_preferencias_laborales' %}" style="cursor:pointer; color:white;"><i
+            class="fas fa-sync-alt"></i>
+        Actualizar</a>
+</div>
+{% endblock %}

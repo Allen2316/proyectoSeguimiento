@@ -1,0 +1,48 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% block tituloLista %}
+<h1>Lista de Referencias Personales</h1>
+{% endblock %}
+
+{% block thead %}
+<tr>
+    <th>Hoja de vida</th>
+    <th>Nombres</th>
+    <th>Telefono</th>    
+    <th>Correo</th>
+    <th>Opciones</th>
+</tr>
+{% endblock thead %}
+
+{% block tbody %}
+
+
+{% if object_list %}
+{% for referencia in object_list %}
+<tr>
+    <td>{{referencia.hoja_de_vida}}</td>
+    <td>{{referencia.nombres}}</td>
+    <td>{{referencia.telefono}}</td>
+    <td>{{referencia.correo}}</td>
+
+    <td><a href="{% url 'editar_referencias_personales' referencia.id_referencias_personales %}" class="btn btn-warning"><i
+                class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_referencias_personales' referencia.id_referencias_personales %}" class="btn btn-danger"><i
+                class="fas fa-trash-alt"></i></a>
+    </td>
+</tr>
+{% endfor %}
+{% else %}
+<td>No existe ningun registro de Logros Personales</td>
+{% endif %}
+
+{% endblock tbody %}
+
+{% block actualizarTbl%}
+<div class="section-footer bg-whitesmoke br">
+    <a class="btn btn-success" href="{% url 'lista_referencias_personales' %}" style="cursor:pointer; color:white;"><i
+            class="fas fa-sync-alt"></i>
+        Actualizar</a>
+</div>
+{% endblock %}

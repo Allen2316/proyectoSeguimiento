@@ -1,0 +1,12 @@
+{% extends 'delete.html' %}
+
+{% block tituloEliminar%}
+<h2 class="section-title">Eliminación de Referencias Personales</h2>
+{% endblock tituloEliminar%}
+
+{% block accion %}
+
+    <a href="{% url 'lista_referencias_personales' %}" class="btn btn-success" >Cancelar</a>
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+
+{% endblock accion %}
