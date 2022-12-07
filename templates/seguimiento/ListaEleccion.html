@@ -1,0 +1,40 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% block tituloLista %}
+<h1>Lista de Elecciones</h1>
+{% endblock %}
+
+{% block thead %}
+<tr>
+    <th>Encuesta</th>
+    <th>Pregunta</th>
+    <th>Respuesta</th>
+
+</tr>
+{% endblock thead %}
+
+{% block tbody %}
+
+
+{% if object_list %}
+{% for eleccion in object_list %}
+<tr>
+    <td>{{eleccion.pregunta.encuesta_laboral}}</td>
+    <td>{{eleccion.pregunta}}</td>
+    <td>{{eleccion.texto_eleccion}}</td>    
+</tr>
+{% endfor %}
+{% else %}
+<td>No existe ningun registro de elecciones</td>
+{% endif %}
+
+{% endblock tbody %}
+
+{% block actualizarTbl%}
+<div class="section-footer bg-whitesmoke br">
+    <a class="btn btn-success" href="{% url 'lista_eleccion' %}" style="cursor:pointer; color:white;"><i
+            class="fas fa-sync-alt"></i>
+        Actualizar</a>
+</div>
+{% endblock %}

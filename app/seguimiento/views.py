@@ -186,6 +186,56 @@ class RegistrarEncuesta(CreateView):
             return self.render_to_response(self.get_context_data(form=form, form2=form2))
 
 
+def RegistrarEleccionf(request, pk):
+    oferta = models.Oferta_Laboral.objects.get(pk=pk)
+
+    encuesta = models.Encuesta_Laboral.objects.get(pk=oferta.encuesta.pk)
+
+    pregunt = models.Pregunta.objects.filter(encuesta_laboral=encuesta)
+
+    pregunt1 = models.Pregunta.objects.filter(
+        encuesta_laboral=encuesta).first()
+
+    eleccion = models.Eleccion.lista_eleccion
+    
+
+    return render(request, 'seguimiento/FrmEleccion.html', locals())
+
+#! NO SIRVE AL GUARDAR
+def RegistrarEleccion(request):    
+    if request.method == 'POST':
+        form = forms.forms.Form(request.POST)        
+        if form.is_valid():
+            form.save()
+        return redirect('index')
+    else:
+        form = forms.FrmEleccion()
+    return render(request, 'registro_eleccionFRM', locals())
+
+""" class RegistrarEleccion(CreateView):
+    model = models.Eleccion
+    template_name = 'seguimiento/FrmEleccion.html'
+    form_class = forms.FrmEleccion
+    success_url = reverse_lazy('lista_eleccion')
+
+    def get_context_data(self, **kwargs):
+        context = super(RegistrarEleccion,
+                        self).get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET)
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form)) """
+
+
 class RegistrarHojaDeVida(CreateView):
     model = models.Logros_Personales
     template_name = 'seguimiento/FrmHoja_de_vida.html'
@@ -580,17 +630,22 @@ class EditarHojaDeVida(UpdateView):
         id_hoja = kwargs['pk']
         hoja = self.model.objects.get(pk=id_hoja)
 
-        logro = self.second_model.objects.get(hoja_de_vida=hoja.pk)
+        logro = self.second_model.objects.filter(hoja_de_vida=hoja.pk).first()
 
-        preferencia = self.third_model.objects.get(hoja_de_vida=hoja.pk)
+        preferencia = self.third_model.objects.filter(
+            hoja_de_vida=hoja.pk).first()
 
-        capacitacion = self.four_model.objects.get(hoja_de_vida=hoja.pk)
+        capacitacion = self.four_model.objects.filter(
+            hoja_de_vida=hoja.pk).first()
 
-        experiencia = self.five_model.objects.get(hoja_de_vida=hoja.pk)
+        experiencia = self.five_model.objects.filter(
+            hoja_de_vida=hoja.pk).first()
 
-        instruccion = self.six_model.objects.get(hoja_de_vida=hoja.pk)
+        instruccion = self.six_model.objects.filter(
+            hoja_de_vida=hoja.pk).first()
 
-        referencia = self.seven_model.objects.get(hoja_de_vida=hoja.pk)
+        referencia = self.seven_model.objects.filter(
+            hoja_de_vida=hoja.pk).first()
 
         form = self.form_class(request.POST, instance=hoja)
         form2 = self.second_form_class(request.POST, instance=logro)
@@ -787,6 +842,11 @@ class ListarOfertaLaboralIndex(ListView):
 class ListarEncuestaLaboral(ListView):
     model = models.Encuesta_Laboral
     template_name = 'seguimiento/ListaEncuesta_Laboral.html'
+
+
+class ListarEleccion(ListView):
+    model = models.Eleccion
+    template_name = 'seguimiento/ListaEleccion.html'
 
 
 class ListarHojaDeVida(ListView):

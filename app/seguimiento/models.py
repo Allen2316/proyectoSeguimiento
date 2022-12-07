@@ -33,12 +33,56 @@ class Carrera(models.Model):
         ('S', 'Suspendida'),
         ('E', 'Ejecutandose')
     )
+
+    lista_tipo = (
+        ('T', 'Tecnico'),
+        ('P', 'Profesional'),
+        ('M', 'Medicina Humana'),
+    )
     id_carrera = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50, null=False)
-    estado = models.CharField(max_length=20, choices=lista_estado, null=False)
+    estado = models.CharField(max_length=30, choices=lista_estado, null=False)
+    tipo = models.CharField(max_length=30, choices=lista_tipo, null=False)
 
     def __str__(self):
         return self.nombre
+
+
+class Encuesta_Laboral(models.Model):
+    id_encuesta_laboral = models.AutoField(primary_key=True)
+    fecha_pub = models.DateField('Fecha de publicación')
+
+    def __str__(self):
+        return 'Encuesta de %s' % str(self.fecha_pub)
+
+
+class Oferta_Laboral(models.Model):
+    lista_tipo = (
+        ('T', 'Tecnico'),
+        ('P', 'Profesional'),
+        ('M', 'Medicina Humana'),
+    )
+    id_oferta_laboral = models.AutoField(primary_key=True)
+    tipo = models.CharField(max_length=20, choices=lista_tipo, null=False)
+
+    informacion_laboral = models.ForeignKey(
+        Informacion_laboral,
+        on_delete=models.CASCADE,
+    )
+
+    empresa = models.ForeignKey(
+        Empresa,
+        on_delete=models.CASCADE,
+    )
+
+    encuesta = models.ForeignKey(
+        Encuesta_Laboral,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return '%s en la empresa "%s"' % (self.informacion_laboral,
+                                          self.empresa)
 
 
 class Estudiante(models.Model):
@@ -51,60 +95,11 @@ class Estudiante(models.Model):
     apellidos = models.CharField(max_length=50, null=False)
     telefono = models.CharField(max_length=10, unique=True)
     estado = models.CharField(max_length=20, choices=lista_estado, null=False)
-    carrera = models.ForeignKey(
-        Carrera,
-        on_delete=models.CASCADE,
-    )
+    carrera = models.ManyToManyField(Carrera)
+    oferta = models.ManyToManyField(Oferta_Laboral, null=True, blank=True)
 
     def __str__(self):
         return '%s %s' % (self.nombres, self.apellidos)
-
-
-class Oferta_Laboral(models.Model):
-    id_oferta_laboral = models.AutoField(primary_key=True)
-
-    informacion_laboral = models.ForeignKey(
-        Informacion_laboral,
-        on_delete=models.CASCADE,
-    )
-
-    empresa = models.ForeignKey(
-        Empresa,
-        on_delete=models.CASCADE,
-    )
-
-    def __str__(self):
-        return '%s en la empresa "%s"' % (self.informacion_laboral,
-                                          self.empresa)
-
-
-class Cuenta(models.Model):
-    id_cuenta = models.AutoField(primary_key=True)
-
-    estudiante = models.ForeignKey(
-        Estudiante,
-        on_delete=models.CASCADE,
-    )
-
-    id_oferta_laboral = models.ForeignKey(
-        Oferta_Laboral,
-        on_delete=models.CASCADE,
-    )
-
-    def __str__(self):
-        return str(self.id_cuenta)
-
-
-class Encuesta_Laboral(models.Model):
-    id_encuesta_laboral = models.AutoField(primary_key=True)
-    fecha_pub = models.DateField('Fecha de publicación')
-    oferta_laboral = models.ForeignKey(
-        Oferta_Laboral,
-        on_delete=models.CASCADE,
-    )
-
-    def __str__(self):
-        return 'Encuesta para la oferta laboral "%s"' % (self.oferta_laboral)
 
 
 class Pregunta(models.Model):
@@ -126,8 +121,9 @@ class Eleccion(models.Model):
         (5, 'Excelente')
     )
     id_eleccion = models.AutoField(primary_key=True)
-    texto_eleccion = models.IntegerField(choices=lista_eleccion, null=False)
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
+    texto_eleccion = models.IntegerField(
+        choices=lista_eleccion, default=3, null=False)
+    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return str(self.texto_eleccion)

@@ -13,6 +13,8 @@ urlpatterns = [
     path('registro_empresa/', views.RegistrarEmpresa.as_view(), name="registro_empresa"),    
     path('registro_oferta_laboral/', views.RegistrarOfertaLaboral.as_view(), name="registro_oferta_laboral"),    
     path('registro_encuesta_laboral/', views.RegistrarEncuesta.as_view(), name="registro_encuesta_laboral"),    
+    path('registro_eleccion/', views.RegistrarEleccion, name="registro_eleccion"),    
+    path('registro_eleccion/<pk>', views.RegistrarEleccionf, name="registro_eleccionFRM"),    
     path('registro_hoja_de_vida/', views.RegistrarHojaDeVida.as_view(), name="registro_hoja_de_vida"),  
     ##
     path('registro_logros_personales/', views.RegistrarLogrosPersonales.as_view(), name="registro_logros_personales"),    
@@ -64,6 +66,7 @@ urlpatterns = [
     path('lista_empresa/', views.ListarEmpresa.as_view(), name="lista_empresa"),
     path('lista_oferta_laboral/', views.ListarOfertaLaboral.as_view(), name="lista_oferta_laboral"),    
     path('lista_encuesta_laboral/', views.ListarEncuestaLaboral.as_view(), name="lista_encuesta_laboral"),
+    path('lista_eleccion/', views.ListarEleccion.as_view(), name="lista_eleccion"),
     path('lista_hoja_de_vida/', views.ListarHojaDeVida.as_view(), name="lista_hoja_de_vida"),
     ##
     path('lista_logros_personales/', views.ListarLogrosPersonales.as_view(), name="lista_logros_personales"),

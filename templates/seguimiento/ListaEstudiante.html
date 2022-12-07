@@ -22,16 +22,22 @@
 {% if object_list %}
 {% for estudiante in object_list %}
 <tr>
-    <td>{{estudiante.nombres}}</td>
-    <td>{{estudiante.apellidos}}</td>
-    <td>{{estudiante.telefono}}</td>
+    <td class="align-middle">{{estudiante.nombres}}</td>
+    <td class="align-middle">{{estudiante.apellidos}}</td>
+    <td class="align-middle">{{estudiante.telefono}}</td>
     {% if estudiante.estado == 'G' %}
-        <td>Graduado</td>
+    <td class="align-middle">Graduado</td>
     {% else %}
-    <td>Egresado</td>
+    <td class="align-middle">Egresado</td>
     {% endif %}
-    <td>{{estudiante.carrera}}</td>
-    <td><a href="{% url 'editar_estudiante' estudiante.id_estudiante %}" class="btn btn-warning"><i
+    <td class="align-middle">
+        <ul>
+            {% for carr in estudiante.carrera.all %}
+            <li>{{carr}}</li>
+            {% endfor %}
+        </ul>
+    </td>
+    <td class="align-middle"><a href="{% url 'editar_estudiante' estudiante.id_estudiante %}" class="btn btn-warning"><i
                 class="fas fa-edit"></i></a>
         <a href="{% url 'eliminar_estudiante' estudiante.id_estudiante %}" class="btn btn-danger"><i
                 class="fas fa-trash-alt"></i></a>
@@ -39,7 +45,7 @@
 </tr>
 {% endfor %}
 {% else %}
-<td>No existe ningun registro de Mejor graduado</td>
+<td class="align-middle">No existe ningun registro de Mejor graduado</td>
 {% endif %}
 
 {% endblock tbody %}

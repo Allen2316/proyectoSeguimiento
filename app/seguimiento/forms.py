@@ -1,29 +1,31 @@
 from django import forms
 from django.views.generic.edit import UpdateView
-from app.seguimiento.models import Carrera, Estudiante, Periodo_Academico, Empresa, Informacion_laboral, Oferta_Laboral, Encuesta_Laboral, Pregunta, Eleccion, Cuenta,  Mejor_Graduado, Hoja_de_vida, Logros_Personales, Preferencias_Laborales, Capacitaciones, Experiencia_Laboral, Instruccion_formal, Referencias_Personales
+from app.seguimiento.models import Carrera, Estudiante, Periodo_Academico, Empresa, Informacion_laboral, Oferta_Laboral, Encuesta_Laboral, Pregunta, Eleccion,  Mejor_Graduado, Hoja_de_vida, Logros_Personales, Preferencias_Laborales, Capacitaciones, Experiencia_Laboral, Instruccion_formal, Referencias_Personales
 
 
 class FrmCarrera(forms.ModelForm):
     class Meta:
         model = Carrera
-        fields = ['nombre', 'estado']
+        fields = ['nombre', 'estado', 'tipo']
 
         labels = {
             'nombre': 'Nombre de la Carera',
             'estado': 'Esado de la Carrera',
-
+            'tipo': 'Tipo o Rama',
         }
 
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Desarrollo de Software'}),
-            'estado': forms.Select(attrs={'class': 'form-control'})
+            'estado': forms.Select(attrs={'class': 'form-control'}),
+            'tipo': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
 class FrmEstudiante(forms.ModelForm):
     class Meta:
         model = Estudiante
-        fields = ['nombres', 'apellidos', 'telefono', 'estado', 'carrera']
+        fields = ['nombres', 'apellidos', 'telefono',
+                  'estado', 'carrera', 'oferta']
 
         labels = {
             'nombres': 'Nombres',
@@ -31,7 +33,7 @@ class FrmEstudiante(forms.ModelForm):
             'telefono': 'Telefono',
             'estado': 'Estado',
             'carrera': 'Carrera',
-
+            'oferta': 'Oferta Laboral',
         }
 
         widgets = {
@@ -39,7 +41,8 @@ class FrmEstudiante(forms.ModelForm):
             'apellidos': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Perez'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '098989897'}),
             'estado': forms.Select(attrs={'class': 'form-control'}),
-            'carrera': forms.Select(attrs={'class': 'form-control'}),
+            'carrera': forms.CheckboxSelectMultiple(attrs={'class': 'form-group'}),
+            'oferta': forms.CheckboxSelectMultiple(attrs={'class': 'form-group'}),
         }
 
 
@@ -124,31 +127,32 @@ class FrmInformacion_laboral(forms.ModelForm):
 class FrmOferta_Laboral(forms.ModelForm):
     class Meta:
         model = Oferta_Laboral
-        fields = ['empresa']
+        fields = ['empresa', 'tipo', 'encuesta', ]
 
         labels = {
             'empresa': 'Empresa',
-
+            'tipo': 'Tipo',
+            'encuesta': 'Encuesta',
         }
 
         widgets = {
             'empresa': forms.Select(attrs={'class': 'form-control'}),
+            'tipo': forms.Select(attrs={'class': 'form-control'}),
+            'encuesta': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
 class FrmEncuesta_Laboral(forms.ModelForm):
     class Meta:
         model = Encuesta_Laboral
-        fields = ['fecha_pub', 'oferta_laboral']
+        fields = ['fecha_pub']
 
         labels = {
             'fecha_pub': 'Fecha de encuenta',
-            'oferta_laboral': 'Selecione la oferta laboral',
         }
 
         widgets = {
             'fecha_pub': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'oferta_laboral': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
@@ -179,8 +183,8 @@ class FrmEleccion(forms.ModelForm):
         }
 
         widgets = {
-            'texto_eleccion': forms.TextInput(attrs={'class': 'form-control'}),
-            'pregunta': forms.Select(attrs={'class': 'form-control'}),
+            'texto_eleccion': forms.RadioSelect(attrs={'class': 'form-check'}),            
+            'pregunta': forms.Select(attrs={'class': 'form-control'} ),
         }
 
 
@@ -385,14 +389,13 @@ class FrmReferencias_Personales(forms.ModelForm):
         }
 
 
-
-##Formularios sin hoja de vida
+# Formularios sin hoja de vida
 
 
 class FrmLogros_Personales1(forms.ModelForm):
     class Meta:
         model = Logros_Personales
-        fields = [ 'tipo_logro', 'descripcion']
+        fields = ['tipo_logro', 'descripcion']
 
         labels = {
             'hoja_de_vida': 'Hoja de vida',
@@ -402,7 +405,7 @@ class FrmLogros_Personales1(forms.ModelForm):
 
         }
 
-        widgets = {           
+        widgets = {
             'tipo_logro': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
 
@@ -412,10 +415,10 @@ class FrmLogros_Personales1(forms.ModelForm):
 class FrmPreferencias_Laborales1(forms.ModelForm):
     class Meta:
         model = Preferencias_Laborales
-        fields = [ 'sector', 'aspiracion_salarial']
+        fields = ['sector', 'aspiracion_salarial']
 
         labels = {
-            
+
             'sector': 'Sector',
             'aspiracion_salarial': 'Aspiracion Salarial',
 
@@ -423,7 +426,7 @@ class FrmPreferencias_Laborales1(forms.ModelForm):
         }
 
         widgets = {
-            
+
             'sector': forms.TextInput(attrs={'class': 'form-control'}),
             'aspiracion_salarial': forms.TextInput(attrs={'class': 'form-control'}),
 
@@ -434,19 +437,19 @@ class FrmCapacitaciones1(forms.ModelForm):
     class Meta:
         model = Capacitaciones
         fields = [
-                  'institucion',
-                  'tipo_de_evento',
-                  'area_de_estudio',
-                  'nombre_de_evento',
-                  'tipo_de_certificado',
-                  'fecha_desde',
-                  'fecha_hasta',
-                  'dias',
-                  'horas',
-                  ]
+            'institucion',
+            'tipo_de_evento',
+            'area_de_estudio',
+            'nombre_de_evento',
+            'tipo_de_certificado',
+            'fecha_desde',
+            'fecha_hasta',
+            'dias',
+            'horas',
+        ]
 
         labels = {
-            
+
             'institucion': 'Institucion',
             'tipo_de_evento': 'Tipo de evento',
             'area_de_estudio': 'Area de estudio',
@@ -478,18 +481,18 @@ class FrmExperiencia_Laboral1(forms.ModelForm):
     class Meta:
         model = Experiencia_Laboral
         fields = [
-                  'institucion',
-                  'tipo_de_institucion',
-                  'area_de_trabajo',
-                  'puesto',
-                  'actividades',
-                  'fecha_desde',
-                  'fecha_hasta',
-                  'trabaja_actualmente_en_este_lugar',
-                  ]
+            'institucion',
+            'tipo_de_institucion',
+            'area_de_trabajo',
+            'puesto',
+            'actividades',
+            'fecha_desde',
+            'fecha_hasta',
+            'trabaja_actualmente_en_este_lugar',
+        ]
 
         labels = {
-            
+
             'institucion': 'Institucion',
             'tipo_de_institucion': 'Tipo de Institucion',
             'area_de_trabajo': 'Area de trabajo',
@@ -502,7 +505,7 @@ class FrmExperiencia_Laboral1(forms.ModelForm):
 
         }
 
-        widgets = {           
+        widgets = {
             'institucion': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo_de_institucion': forms.TextInput(attrs={'class': 'form-control'}),
             'area_de_trabajo': forms.TextInput(attrs={'class': 'form-control'}),
@@ -519,11 +522,11 @@ class FrmInstruccion_formal1(forms.ModelForm):
     class Meta:
         model = Instruccion_formal
         fields = [
-                  'nivel_de_instruccion',
-                  'instruccion_educativa',
-                  'titulo_obtenido',
-                  'no_del_registro_senescyt',
-                  ]
+            'nivel_de_instruccion',
+            'instruccion_educativa',
+            'titulo_obtenido',
+            'no_del_registro_senescyt',
+        ]
 
         labels = {
             'nivel_de_instruccion': 'Nivel de instruccion',
@@ -534,7 +537,7 @@ class FrmInstruccion_formal1(forms.ModelForm):
 
         }
 
-        widgets = {            
+        widgets = {
             'nivel_de_instruccion': forms.TextInput(attrs={'class': 'form-control'}),
             'instruccion_educativa': forms.TextInput(attrs={'class': 'form-control'}),
             'titulo_obtenido': forms.TextInput(attrs={'class': 'form-control'}),
@@ -547,13 +550,13 @@ class FrmReferencias_Personales1(forms.ModelForm):
     class Meta:
         model = Referencias_Personales
         fields = [
-                  'nombres',
-                  'telefono',
-                  'correo',
-                  ]
+            'nombres',
+            'telefono',
+            'correo',
+        ]
 
         labels = {
-            
+
             'nombres': 'Nombres',
             'telefono': 'Telefono',
             'correo': 'Correo',
@@ -561,7 +564,7 @@ class FrmReferencias_Personales1(forms.ModelForm):
 
         }
 
-        widgets = {            
+        widgets = {
             'nombres': forms.TextInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
             'correo': forms.TextInput(attrs={'class': 'form-control'}),

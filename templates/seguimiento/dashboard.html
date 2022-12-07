@@ -21,10 +21,11 @@
           </div>
 
           <div class="card-body">
-            <p>En la empresa: <code>{{oferta.empresa}}</code></p>            
-            <p>Ciudad: <b>{{oferta.informacion_laboral.ciudad}}</b></p> 
-            <p>Remuneración: <b>{{oferta.informacion_laboral.remuneracion_economica}}</b></p> 
-            <p>Actividades: <b>{{oferta.informacion_laboral.actividades_desempenar}}</b></p> 
+            <p>En la empresa: <code>{{oferta.empresa}}</code></p>
+            <p>Ciudad: <b>{{oferta.informacion_laboral.ciudad}}</b></p>
+            <p>Remuneración: <b>{{oferta.informacion_laboral.remuneracion_economica}}</b></p>
+            <p>Actividades: <b>{{oferta.informacion_laboral.actividades_desempenar}}</b></p>
+            <a href="{% url 'registro_eleccionFRM' oferta.id_oferta_laboral %}" class="btn btn-success">Llenar Encuesta</a>
           </div>
         </div>
       </div>
