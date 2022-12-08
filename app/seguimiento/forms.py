@@ -25,6 +25,28 @@ class FrmEstudiante(forms.ModelForm):
     class Meta:
         model = Estudiante
         fields = ['nombres', 'apellidos', 'telefono',
+                  'estado', 'carrera']
+
+        labels = {
+            'nombres': 'Nombres',
+            'apellidos': 'Apellidos',
+            'telefono': 'Telefono',
+            'estado': 'Estado',
+            'carrera': 'Carrera',            
+        }
+
+        widgets = {
+            'nombres': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Juan'}),
+            'apellidos': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Perez'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '098989897'}),
+            'estado': forms.Select(attrs={'class': 'form-control'}),
+            'carrera': forms.CheckboxSelectMultiple(attrs={'class': 'form-group'}),            
+        }
+
+class FrmEstudianteUpdate(forms.ModelForm):
+    class Meta:
+        model = Estudiante
+        fields = ['nombres', 'apellidos', 'telefono',
                   'estado', 'carrera', 'oferta']
 
         labels = {

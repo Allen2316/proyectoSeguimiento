@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404, reverse
 from django.urls import reverse_lazy
 from app.seguimiento import models
 from app.seguimiento import forms
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
+from django.db.models import F
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
 # Create your views here.
 
@@ -186,31 +187,57 @@ class RegistrarEncuesta(CreateView):
             return self.render_to_response(self.get_context_data(form=form, form2=form2))
 
 
-def RegistrarEleccionf(request, pk):
-    oferta = models.Oferta_Laboral.objects.get(pk=pk)
+def RegistrarEleccionf(request, id_oferta_laboral):
+    oferta = get_object_or_404(models.Oferta_Laboral,
+                               id_oferta_laboral=id_oferta_laboral)
 
-    encuesta = models.Encuesta_Laboral.objects.get(pk=oferta.encuesta.pk)
+    #encuesta = oferta.encuesta_set.all()
+    encuesta = get_object_or_404(
+        models.Encuesta_Laboral,
+        id_encuesta_laboral=oferta.encuesta.id_encuesta_laboral)
 
-    pregunt = models.Pregunta.objects.filter(encuesta_laboral=encuesta)
+    pregunta = encuesta.pregunta_set.all()
 
-    pregunt1 = models.Pregunta.objects.filter(
-        encuesta_laboral=encuesta).first()
+    # pregunta[1].eleccion_set.all()
 
-    eleccion = models.Eleccion.lista_eleccion
-    
+    context = {
+        'pregunta': pregunta,
+        # 'eleccion': eleccion,
+    }
 
-    return render(request, 'seguimiento/FrmEleccion.html', locals())
+    return render(request, 'seguimiento/FrmEleccion.html', context)
 
-#! NO SIRVE AL GUARDAR
-def RegistrarEleccion(request):    
-    if request.method == 'POST':
-        form = forms.forms.Form(request.POST)        
-        if form.is_valid():
-            form.save()
-        return redirect('index')
-    else:
-        form = forms.FrmEleccion()
-    return render(request, 'registro_eleccionFRM', locals())
+
+def voto(request):
+    valores = request.POST
+    lista = []
+    id_p = []
+
+    for i in valores:
+        lista.append(request.POST[i])
+        id_p.append(i)
+
+    lista.pop(0)
+    id_p.pop(0)
+
+    cont = 0
+    for pre in id_p:
+        pregunta = get_object_or_404(models.Pregunta, pk=pre)
+        try:
+            opcion_elegida = pregunta.eleccion_set.get(pk=lista[cont])
+        except (KeyError, models.Eleccion.DoesNotExist):
+            return render(request, 'seguimiento/FrmEleccion.html', {
+                'lista': lista,
+                'id_p': id_p,
+                'error_message': 'No seleccionó una opción.',
+            })
+        else:
+            opcion_elegida.votos += 1
+            opcion_elegida.save()
+            cont += 1
+
+    return HttpResponseRedirect(reverse('lista_oferta_laboral_index',))
+
 
 """ class RegistrarEleccion(CreateView):
     model = models.Eleccion
@@ -493,12 +520,23 @@ class EditarPeriodoAcademico(UpdateView):
     template_name = 'seguimiento/FrmPeriodo_Academico.html'
     success_url = reverse_lazy('lista_periodo_academico')
 
-
+""" from app.seguimiento import models 
+    from django.db.models import F
+"""
 class EditarEstudiante(UpdateView):
     model = models.Estudiante
-    form_class = forms.FrmEstudiante
+    form_class = forms.FrmEstudianteUpdate
     template_name = 'seguimiento/FrmEstudiante.html'
     success_url = reverse_lazy('lista_estudiante')
+
+    """ def get_context_data(self):
+        
+        context = super(EditarEstudiante, self).get_context_data()
+                                  
+        if 'oferta' not in context:            
+            context['oferta'] = models.Oferta_Laboral.objects.filter(tipo=F('estudiante__carrera__tipo'))
+            context['oferta'] = models.Oferta_Laboral.objects.estudiante_set().filter(tipo=es.carrera.tipo)
+        return context """
 
 
 class EditarMejorGraduado(UpdateView):

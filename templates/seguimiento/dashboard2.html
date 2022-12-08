@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<section class="section">
+  <div class="section-header">
+    <h1>Dashboard</h1>
+  </div>
+  <div class="section-body">
+    <h2 class="section-title">Ofertas laborales</h2>
+    <p class="section-lead">
+      Listado de ofertas laborales
+    </p>
+    <div class="row">
+      
+      <p>holaaa</p>
+      {% for i in lista %}
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h4>{{i}}</h4>
+          </div>
+
+          <div class="card-body">
+          
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      
+      
+      
+
+          {% for i in id_p %}
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-primary">
+              <div class="card-header">            
+                <h4>{{ i }}</h4>
+              </div>
+              
+              <div class="card-body">
+              
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+      
+
+    </div>
+</section>
+</div>
+{% endblock content %}

@@ -47,51 +47,61 @@
   <div class="section-body">
     <h2 class="section-title">Formularios de Seguimiento</h2>
     <div class="row">
-      <div class="col-12 col-md-6 col-lg-9">
+
+      <div class="col-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="card-body">
-            <form method="POST" action="/registro_eleccion/">
+            <form method="POST" action="{% url 'voto' %}">
               {% csrf_token %}
 
+              <!-- pregunta[1].eleccion_set.all()  -->
+              {% for p in pregunta %}
+              {% if error_message %} <p><strong>{{ error_message }}</strong></p> {% endif %}
 
-              {% for f in pregunt %}
-              <div class="form-group">                
-                <input class="form-control" type="hidden" value="{{f.id_pregunta}}"> 
-                <input class="form-control" type="text" value="{{f}}" disabled> 
+              <div>{{forloop.counter}}.- {{ p }}</div>
+              {% for e in p.eleccion_set.all %}
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="{{ p.id_pregunta }}eleccion{{ forloop.counter }}" name="{{ p.id_pregunta }}"
+                  value="{{e.id_eleccion}}" class="custom-control-input">
+                {% if e.texto_eleccion == 1 %}
+                <label class="custom-control-label" for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">Muy
+                  Malo</label>
+                {% elif e.texto_eleccion == 2 %}
+                <label class="custom-control-label"
+                for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">Malo</label>
+                {% elif e.texto_eleccion == 3 %}
+                <label class="custom-control-label"
+                  for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">Normal</label>
 
-                {% for k, h in eleccion %}
-                <div class="custom-control custom-radio custom-control-inline">
+                {% elif e.texto_eleccion == 4 %}
+                <label class="custom-control-label" for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">Bueno</label>
 
-                  <input type="radio" id="{{ forloop.parentloop.counter }}{{k}}" name="{{f}}"
-                    class="custom-control-input">
-                  <label class="custom-control-label" for="{{ forloop.parentloop.counter }}{{k}}">{{h}}</label>
+                {% elif e.texto_eleccion == 5 %}
+                <label class="custom-control-label" for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">Muy
+                  Bueno</label>
 
-                </div>
-                {% endfor %}
-
+                {% else %}
+                <label class="custom-control-label"
+                  for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">{{e.texto_eleccion}}</label>
+                {% endif %}
               </div>
-
-
-
-
+              {% endfor %}                            
+              <br>
+              <br>
               {% endfor %}
-
-
-
-              <div>
-
-
-                <button type="submit" class="btn btn-success">
-                  <i class="fas fa-user"></i> Guardar
-                </button>
-                {% block volver %}
-                {% endblock volver %}
-              </div>
-            </form>
+              <br>
+              <button type="submit" class="btn btn-success">
+                <i class="fas fa-user"></i> Guardar
+              </button>
+              {% block volver %}
+              {% endblock volver %}
           </div>
+          </form>
         </div>
       </div>
+
     </div>
+  </div>
   </div>
 </section>
 {% endblock content %}

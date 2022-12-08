@@ -96,7 +96,7 @@ class Estudiante(models.Model):
     telefono = models.CharField(max_length=10, unique=True)
     estado = models.CharField(max_length=20, choices=lista_estado, null=False)
     carrera = models.ManyToManyField(Carrera)
-    oferta = models.ManyToManyField(Oferta_Laboral, null=True, blank=True)
+    oferta = models.ManyToManyField(Oferta_Laboral, blank=True)
 
     def __str__(self):
         return '%s %s' % (self.nombres, self.apellidos)
@@ -113,16 +113,9 @@ class Pregunta(models.Model):
 
 
 class Eleccion(models.Model):
-    lista_eleccion = (
-        (1, 'Muy Malo'),
-        (2, 'Malo'),
-        (3, 'Bueno'),
-        (4, 'Muy Bueno'),
-        (5, 'Excelente')
-    )
     id_eleccion = models.AutoField(primary_key=True)
-    texto_eleccion = models.IntegerField(
-        choices=lista_eleccion, default=3, null=False)
+    texto_eleccion = models.IntegerField(null=False)
+    votos = models.IntegerField(null=False, default=0)
     pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
