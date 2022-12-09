@@ -179,6 +179,7 @@ class Preferencias_Laborales(models.Model):
     hoja_de_vida = models.ForeignKey(
         Hoja_de_vida,
         on_delete=models.CASCADE,
+        related_name='hoja',
     )
     sector = models.CharField(max_length=100, null=False)
     aspiracion_salarial = models.DecimalField(max_digits=6, decimal_places=2)
@@ -236,6 +237,7 @@ class Instruccion_formal(models.Model):
     hoja_de_vida = models.ForeignKey(
         Hoja_de_vida,
         on_delete=models.CASCADE,
+        related_name='hojaIF',
     )
     nivel_de_instruccion = models.CharField(max_length=100, null=False)
     instruccion_educativa = models.CharField(max_length=100, null=False)

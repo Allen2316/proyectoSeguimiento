@@ -8,7 +8,9 @@
 {% block thead %}
 <tr>
     <th>Hoja de vida </th>
-    <th>Estudiante</th>        
+    <th>Estudiante</th>
+    <th>Titulo</th>
+    <th>Aspiracion Salarial</th>
     <th>Opciones</th>
 </tr>
 {% endblock thead %}
@@ -17,13 +19,26 @@
 
 
 {% if object_list %}
+
 {% for hoja in object_list %}
 <tr>
     <td>{{hoja.id_hoja_de_vida}}</td>
-    <td>{{hoja.estudiante}}</td>    
-    <td><a href="{% url 'editar_hoja_de_vida' hoja.id_hoja_de_vida %}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+    <td>{{hoja.estudiante}}</td>
+
+    {% for p in hoja.hojaIF.all %}    
+    <td>{{p.titulo_obtenido }}</td>
+    {% endfor %}
+
+    {% for p in hoja.hoja.all %}    
+    <td>{{p.aspiracion_salarial }}</td>
+    {% endfor %}
+
+    
+    <td><a href="{% url 'editar_hoja_de_vida' hoja.id_hoja_de_vida %}" class="btn btn-warning"><i
+                class="fas fa-edit"></i></a>
         <a href="{% url 'eliminar_hoja_de_vida' hoja.id_hoja_de_vida %}" class="btn btn-danger"><i
-                class="fas fa-trash-alt"></i></a></td>
+                class="fas fa-trash-alt"></i></a>
+    </td>
 </tr>
 {% endfor %}
 {% else %}
