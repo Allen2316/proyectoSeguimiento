@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'proyectoSeguimiento.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'seguimiento',
+        'NAME': 'seguimiento2',
         'USER': 'root',
         'PASSWORD': '1234',
         'HOST': '',
