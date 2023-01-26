@@ -22,21 +22,15 @@
 {% if object_list %}
 {% for estudiante in object_list %}
 <tr>
-    <td class="align-middle">{{estudiante.nombres}}</td>
-    <td class="align-middle">{{estudiante.apellidos}}</td>
+    <td class="align-middle">{{estudiante.user.first_name}}</td>
+    <td class="align-middle">{{estudiante.user.last_name}}</td>
     <td class="align-middle">{{estudiante.telefono}}</td>
     {% if estudiante.estado == 'G' %}
     <td class="align-middle">Graduado</td>
     {% else %}
     <td class="align-middle">Egresado</td>
     {% endif %}
-    <td class="align-middle">
-        <ul>
-            {% for carr in estudiante.carrera.all %}
-            <li>{{carr}}</li>
-            {% endfor %}
-        </ul>
-    </td>
+    <td class="align-middle">{{estudiante.carrera}}</td>
     <td class="align-middle"><a href="{% url 'editar_estudiante' estudiante.id_estudiante %}" class="btn btn-warning"><i
                 class="fas fa-edit"></i></a>
         <a href="{% url 'eliminar_estudiante' estudiante.id_estudiante %}" class="btn btn-danger"><i

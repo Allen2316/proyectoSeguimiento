@@ -1,71 +1,157 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.admin.widgets import AutocompleteSelect
+from django.contrib import admin
 from django.views.generic.edit import UpdateView
 from app.seguimiento.models import Carrera, Estudiante, Periodo_Academico, Empresa, Informacion_laboral, Oferta_Laboral, Encuesta_Laboral, Pregunta, Eleccion,  Mejor_Graduado, Hoja_de_vida, Logros_Personales, Preferencias_Laborales, Capacitaciones, Experiencia_Laboral, Instruccion_formal, Referencias_Personales
+from django.contrib.auth.models import User
+
+
+class FrmLogin(forms.Form):
+
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control'}), label='Usuario')
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control'}), label='Contraseña')
+
+
+class FrmUser(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username']
+
+        labels = {
+            'first_name': 'Nombres',
+            'last_name': 'Apellidos',
+            'username': 'Usuario',
+        }
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class FrmUserEd(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username']
+
+        labels = {
+            'first_name': 'Nombres',
+            'last_name': 'Apellidos',
+            'username': 'Usuario',
+        }
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class FrmUserEmp(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'username']
+
+        labels = {
+            'first_name': 'Nombre de Empresa',
+            'username': 'Usuario',
+        }
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class FrmUserEmpEd(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'username']
+
+        labels = {
+            'first_name': 'Nombre de Empresa',
+            'username': 'Usuario',
+        }
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 
 class FrmCarrera(forms.ModelForm):
     class Meta:
         model = Carrera
-        fields = ['nombre', 'estado', 'tipo']
+        fields = ['nombre', 'estado']
 
         labels = {
-            'nombre': 'Nombre de la Carera',
-            'estado': 'Esado de la Carrera',
-            'tipo': 'Tipo o Rama',
+            'nombre': 'Nombre de la carrera',
+            'estado': 'Estado de la carrera',
         }
 
         widgets = {
-            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Desarrollo de Software'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'estado': forms.Select(attrs={'class': 'form-control'}),
-            'tipo': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
 class FrmEstudiante(forms.ModelForm):
     class Meta:
         model = Estudiante
-        fields = ['nombres', 'apellidos', 'telefono',
-                  'estado', 'carrera']
+        fields = ['telefono',
+                  'cedula',
+                  'estado',
+                  'carrera']
 
         labels = {
-            'nombres': 'Nombres',
-            'apellidos': 'Apellidos',
+            'cedula': 'Cedula',
             'telefono': 'Telefono',
             'estado': 'Estado',
-            'carrera': 'Carrera',            
+            'carrera': 'Carrera',
         }
 
         widgets = {
-            'nombres': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Juan'}),
-            'apellidos': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Perez'}),
-            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '098989897'}),
+            'cedula': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'autofocus':True}),
             'estado': forms.Select(attrs={'class': 'form-control'}),
-            'carrera': forms.CheckboxSelectMultiple(attrs={'class': 'form-group'}),            
+            'carrera': forms.Select(attrs={'class': 'form-control'}),
         }
+
 
 class FrmEstudianteUpdate(forms.ModelForm):
     class Meta:
         model = Estudiante
-        fields = ['nombres', 'apellidos', 'telefono',
-                  'estado', 'carrera', 'oferta']
+        fields = ['telefono',
+                  'cedula',
+                  'estado',
+                  'carrera',
+                  'oferta']
 
         labels = {
-            'nombres': 'Nombres',
-            'apellidos': 'Apellidos',
             'telefono': 'Telefono',
+            'cedula': 'Cedula',
             'estado': 'Estado',
             'carrera': 'Carrera',
             'oferta': 'Oferta Laboral',
         }
 
         widgets = {
-            'nombres': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Juan'}),
-            'apellidos': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Perez'}),
-            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '098989897'}),
+            'cedula': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
             'estado': forms.Select(attrs={'class': 'form-control'}),
-            'carrera': forms.CheckboxSelectMultiple(attrs={'class': 'form-group'}),
+            'carrera': forms.Select(attrs={'class': 'form-control'}),
             'oferta': forms.CheckboxSelectMultiple(attrs={'class': 'form-group'}),
         }
+
+    """ def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['oferta'].queryset = user.userE.carrera.filter() """
 
 
 class FrmPeriodo_Academico(forms.ModelForm):
@@ -87,18 +173,17 @@ class FrmPeriodo_Academico(forms.ModelForm):
 class FrmMejor_Graduado(forms.ModelForm):
     class Meta:
         model = Mejor_Graduado
-        fields = ['nota_Grado', 'estudiante', 'periodo_academico']
+        fields = ['estudiante', 'nota_Grado', 'periodo_academico']
 
         labels = {
-            'nota_Grado': 'Nota Grado',
             'estudiante': 'Estudiante',
+            'nota_Grado': 'Nota de grado',
             'periodo_academico': 'Periodo Academico',
-
         }
 
         widgets = {
-            'nota_Grado': forms.NumberInput(attrs={'class': 'form-control'}),
             'estudiante': forms.Select(attrs={'class': 'form-control'}),
+            'nota_Grado': forms.NumberInput(attrs={'class': 'form-control'}),
             'periodo_academico': forms.Select(attrs={'class': 'form-control'}),
         }
 
@@ -106,21 +191,18 @@ class FrmMejor_Graduado(forms.ModelForm):
 class FrmEmpresa(forms.ModelForm):
     class Meta:
         model = Empresa
-        fields = ['nombre_empresa', 'direccion', 'ubicacion', 'contacto']
+        fields = ['direccion', 'ubicacion', 'contacto']
 
         labels = {
-            'nombre_empresa': 'Nombre',
-            'direccion': 'Direccion',
             'ubicacion': 'Ubicacion',
             'contacto': 'Contacto'
 
         }
 
         widgets = {
-            'nombre_empresa': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Empresa Ejemplo'}),
-            'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Av. Cuxibamba'}),
-            'ubicacion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Loja'}),
-            'contacto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '098989897'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control','autofocus':True}),
+            'ubicacion': forms.TextInput(attrs={'class': 'form-control'}),
+            'contacto': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 
@@ -139,28 +221,53 @@ class FrmInformacion_laboral(forms.ModelForm):
         }
 
         widgets = {
-            'cargo_ocupar': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Desarrollador'}),
-            'remuneracion_economica': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '520'}),
-            'actividades_desempenar': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Programar aplicaciones'}),
-            'ciudad': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Loja'}),
+            'cargo_ocupar': forms.TextInput(attrs={'class': 'form-control'}),
+            'remuneracion_economica': forms.NumberInput(attrs={'class': 'form-control'}),
+            'actividades_desempenar': forms.TextInput(attrs={'class': 'form-control'}),
+            'ciudad': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 
 class FrmOferta_Laboral(forms.ModelForm):
     class Meta:
         model = Oferta_Laboral
-        fields = ['empresa', 'tipo', 'encuesta', ]
+        fields = ['empresa', 'encuesta', 'carrera']
 
         labels = {
             'empresa': 'Empresa',
-            'tipo': 'Tipo',
             'encuesta': 'Encuesta',
+            'carrera': 'Carrera'
         }
 
         widgets = {
-            'empresa': forms.Select(attrs={'class': 'form-control'}),
-            'tipo': forms.Select(attrs={'class': 'form-control'}),
+            'empresa': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'encuesta': forms.Select(attrs={'class': 'form-control'}),
+            'carrera': forms.Select(attrs={'class': 'form-group'}),
+
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(FrmOferta_Laboral, self).__init__(*args, **kwargs)
+        self.fields['empresa'].widget.attrs['readonly'] = True
+
+
+class FrmOferta_LaboralAdmin(forms.ModelForm):
+    class Meta:
+        model = Oferta_Laboral
+        fields = ['empresa', 'encuesta', 'carrera']
+
+        labels = {
+            'empresa': 'Empresa',
+            'encuesta': 'Encuesta',
+            'carrera': 'Carrera',
+
+        }
+
+        widgets = {
+            'empresa': AutocompleteSelect(Oferta_Laboral._meta.get_field('empresa'), admin.site,
+                                          attrs={'class': 'form-control', 'placeholder': 'Selecione'}),
+            'encuesta': forms.Select(attrs={'class': 'form-control'}),
+            'carrera': forms.Select(attrs={'class': 'form-group'}),
         }
 
 
@@ -189,7 +296,7 @@ class FrmPregunta(forms.ModelForm):
         }
 
         widgets = {
-            'texto_pregunta': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'pregunta aqui'}),
+            'texto_pregunta': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'escriba su pregunta'}),
         }
 
 
@@ -205,8 +312,8 @@ class FrmEleccion(forms.ModelForm):
         }
 
         widgets = {
-            'texto_eleccion': forms.RadioSelect(attrs={'class': 'form-check'}),            
-            'pregunta': forms.Select(attrs={'class': 'form-control'} ),
+            'texto_eleccion': forms.RadioSelect(attrs={'class': 'form-check'}),
+            'pregunta': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
@@ -221,7 +328,27 @@ class FrmHoja_de_vida(forms.ModelForm):
         }
 
         widgets = {
-            'estudiante': forms.Select(attrs={'class': 'form-control'}),
+            'estudiante': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(FrmHoja_de_vida, self).__init__(*args, **kwargs)
+        self.fields['estudiante'].widget.attrs['readonly'] = True
+
+
+class FrmHoja_de_vidaAdmin(forms.ModelForm):
+    class Meta:
+        model = Hoja_de_vida
+        fields = ['estudiante']
+
+        labels = {
+            'estudiante': 'Estudiante',
+
+        }
+
+        widgets = {
+            'estudiante': AutocompleteSelect(Hoja_de_vida._meta.get_field('estudiante'), admin.site,
+                                             attrs={'class': 'form-control', 'placeholder': 'Selecione'}),
         }
 
 
@@ -300,10 +427,10 @@ class FrmCapacitaciones(forms.ModelForm):
         widgets = {
             'hoja_de_vida': forms.Select(attrs={'class': 'form-control'}),
             'institucion': forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo_de_evento': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo_de_evento': forms.Select(attrs={'class': 'form-control'}),
             'area_de_estudio': forms.TextInput(attrs={'class': 'form-control'}),
             'nombre_de_evento': forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo_de_certificado': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo_de_certificado': forms.Select(attrs={'class': 'form-control'}),
             'fecha_desde': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
             'fecha_hasta': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
             'dias': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -487,10 +614,10 @@ class FrmCapacitaciones1(forms.ModelForm):
 
         widgets = {
             'institucion': forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo_de_evento': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo_de_evento': forms.Select(attrs={'class': 'form-control'}),
             'area_de_estudio': forms.TextInput(attrs={'class': 'form-control'}),
             'nombre_de_evento': forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo_de_certificado': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo_de_certificado': forms.Select(attrs={'class': 'form-control'}),
             'fecha_desde': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
             'fecha_hasta': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
             'dias': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -519,7 +646,7 @@ class FrmExperiencia_Laboral1(forms.ModelForm):
             'tipo_de_institucion': 'Tipo de Institucion',
             'area_de_trabajo': 'Area de trabajo',
             'puesto': 'Puesto',
-            'actividades': 'actividades',
+            'actividades': 'Actividades',
             'fecha_desde': 'Fecha desde',
             'fecha_hasta': 'Fecha hasta',
             'trabaja_actualmente_en_este_lugar': 'Trabaja actualmente en este lugar',

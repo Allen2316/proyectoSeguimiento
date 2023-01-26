@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+from django.urls import reverse_lazy
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'proyectoSeguimiento.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'seguimiento2',
+        'NAME': 'seguimiento',
         'USER': 'root',
         'PASSWORD': '1234',
         'HOST': '',
@@ -104,7 +104,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+LOGIN_URL = reverse_lazy('logueo')  # url name = autenticar de login->urls
+LOGOUT_URL = reverse_lazy('logueo')
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -123,7 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

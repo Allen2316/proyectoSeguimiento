@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<section class="section">
+  <div class="section-header">
+    <h1></h1>
+  </div>
+  <div class="section-body">
+    <h2 class="section-title">Oferta laboral</h2>
+    <p>Informacion completa de la oferta laboral</p>
+    <div class="row">
+      {% if object_list %}
+      {% for oferta in object_list %}
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h4>{{oferta.informacion_laboral}}</h4>
+          </div>
+          <div class="card-body">
+            <p> Carrera: {{oferta.carrera}}
+            </p>
+            <p>Empresa: <b>{{oferta.empresa}}</b></p>
+            <p>Direccion de empresa: <b>{{oferta.empresa.direccion}}</b></p>
+            <p>Contacto: <b>{{oferta.empresa.contacto}}</b></p>
+            <p>Ciudad: <b>{{oferta.informacion_laboral.ciudad}}</b></p>
+            <p>Remuneración: <b>{{oferta.informacion_laboral.remuneracion_economica}}</b></p>
+            <p>Actividades: <b>{{oferta.informacion_laboral.actividades_desempenar}}</b></p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+</div>
+{% endblock content %}

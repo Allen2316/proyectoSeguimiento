@@ -21,7 +21,7 @@
 {% if object_list %}
 {% for empresa in object_list %}
 <tr>
-    <td>{{empresa.nombre_empresa}}</td>
+    <td>{{empresa.user.first_name}}</td>
     <td>{{empresa.direccion}}</td>
     <td>{{empresa.ubicacion}}</td>
     <td>{{empresa.contacto}}</td>

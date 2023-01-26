@@ -1,25 +1,26 @@
 from django.db import models
 import calendar
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 
 class Empresa(models.Model):
     id_empresa = models.AutoField(primary_key=True)
-    nombre_empresa = models.CharField(max_length=50, null=False)
     direccion = models.CharField(max_length=50, null=False)
     ubicacion = models.CharField(max_length=100, null=False)
     contacto = models.CharField(max_length=50, null=False)
+    user = models.OneToOneField(User, null=False, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nombre_empresa
+        return self.user.first_name
 
 
 class Informacion_laboral(models.Model):
     id_informacion_oferta_laboral = models.AutoField(primary_key=True)
     cargo_ocupar = models.CharField(max_length=50, null=False)
     remuneracion_economica = models.DecimalField(
-        max_digits=6, decimal_places=2, null=False)
+        max_digits=8, decimal_places=2, null=False)
     actividades_desempenar = models.TextField(max_length=50, null=False)
     ciudad = models.CharField(max_length=50, null=False)
 
@@ -42,7 +43,7 @@ class Carrera(models.Model):
     id_carrera = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50, null=False)
     estado = models.CharField(max_length=30, choices=lista_estado, null=False)
-    tipo = models.CharField(max_length=30, choices=lista_tipo, null=False)
+    carrera_necesitada = models.CharField(max_length=30, null=False)
 
     def __str__(self):
         return self.nombre
@@ -57,13 +58,7 @@ class Encuesta_Laboral(models.Model):
 
 
 class Oferta_Laboral(models.Model):
-    lista_tipo = (
-        ('T', 'Tecnico'),
-        ('P', 'Profesional'),
-        ('M', 'Medicina Humana'),
-    )
     id_oferta_laboral = models.AutoField(primary_key=True)
-    tipo = models.CharField(max_length=20, choices=lista_tipo, null=False)
 
     informacion_laboral = models.ForeignKey(
         Informacion_laboral,
@@ -78,10 +73,16 @@ class Oferta_Laboral(models.Model):
     encuesta = models.ForeignKey(
         Encuesta_Laboral,
         on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="encuesta"
     )
 
+    carrera = models.ForeignKey(
+        Carrera, related_name="carrera", on_delete=models.CASCADE)
+
     def __str__(self):
-        return '%s en la empresa "%s"' % (self.informacion_laboral,
+        return '%s || %s en la empresa "%s"' % (self.carrera,self.informacion_laboral,
                                           self.empresa)
 
 
@@ -91,15 +92,15 @@ class Estudiante(models.Model):
         ('G', 'Estudiante Graduado')
     )
     id_estudiante = models.AutoField(primary_key=True)
-    nombres = models.CharField(max_length=50, null=False)
-    apellidos = models.CharField(max_length=50, null=False)
+    cedula = models.CharField(max_length=10, null=False, unique=True)
     telefono = models.CharField(max_length=10, unique=True)
     estado = models.CharField(max_length=20, choices=lista_estado, null=False)
-    carrera = models.ManyToManyField(Carrera)
+    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, null=False)
     oferta = models.ManyToManyField(Oferta_Laboral, blank=True)
+    user = models.OneToOneField(User, null=False, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '%s %s' % (self.nombres, self.apellidos)
+        return '%s %s' % (self.user.first_name, self.user.last_name)
 
 
 class Pregunta(models.Model):
@@ -154,11 +155,11 @@ class Hoja_de_vida(models.Model):
     id_hoja_de_vida = models.AutoField(primary_key=True)
     estudiante = models.ForeignKey(
         Estudiante,
-        on_delete=models.CASCADE,
+        on_delete=models.CASCADE, related_name='estudiante'
     )
 
     def __str__(self):
-        return str(self.id_hoja_de_vida)
+        return 'Hoja de vida %s' % str(self.id_hoja_de_vida)
 
 
 class Logros_Personales(models.Model):
@@ -166,6 +167,7 @@ class Logros_Personales(models.Model):
     hoja_de_vida = models.ForeignKey(
         Hoja_de_vida,
         on_delete=models.CASCADE,
+        related_name='hojaLP'
     )
     tipo_logro = models.CharField(max_length=50, null=False)
     descripcion = models.TextField(max_length=100, null=False)
@@ -189,16 +191,33 @@ class Preferencias_Laborales(models.Model):
 
 
 class Capacitaciones(models.Model):
+    lista_tipoEv = (
+        ('COF', 'Conferencia'),
+        ('TA', 'Taller'),
+        ('SE', 'Seminario'),
+        ('CO', 'Congreso'),
+        ('PA', 'Pasantia')
+    )
+
+    lista_tipoCer = (
+        ('A', 'Aprobacion'),
+        ('NA', 'Asistencia'),
+        ('PA', 'Participacion')
+    )
+
     id_capacitaciones = models.AutoField(primary_key=True)
     hoja_de_vida = models.ForeignKey(
         Hoja_de_vida,
         on_delete=models.CASCADE,
+        related_name='hojaCap'
     )
     institucion = models.CharField(max_length=100, null=False)
-    tipo_de_evento = models.CharField(max_length=100, null=False)
+    tipo_de_evento = models.CharField(
+        max_length=50, choices=lista_tipoEv, null=False)
     area_de_estudio = models.CharField(max_length=100, null=False)
     nombre_de_evento = models.CharField(max_length=100, null=False)
-    tipo_de_certificado = models.CharField(max_length=100, null=False)
+    tipo_de_certificado = models.CharField(
+        max_length=50, choices=lista_tipoCer, null=False)
     fecha_desde = models.DateField(null=False)
     fecha_hasta = models.DateField(null=False)
     dias = models.CharField(max_length=10, null=False)
@@ -217,6 +236,7 @@ class Experiencia_Laboral(models.Model):
     hoja_de_vida = models.ForeignKey(
         Hoja_de_vida,
         on_delete=models.CASCADE,
+        related_name='hojaEL'
     )
     institucion = models.CharField(max_length=100, null=False)
     tipo_de_institucion = models.CharField(max_length=100, null=False)
@@ -253,6 +273,7 @@ class Referencias_Personales(models.Model):
     hoja_de_vida = models.ForeignKey(
         Hoja_de_vida,
         on_delete=models.CASCADE,
+        related_name='hojaRP'
     )
     nombres = models.CharField(max_length=100, null=False)
     telefono = models.IntegerField(null=False)

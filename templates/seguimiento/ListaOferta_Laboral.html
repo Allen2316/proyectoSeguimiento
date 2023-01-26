@@ -10,8 +10,8 @@
     <th>Cargo</th>
     <th>Actividades</th>
     <th>Empresa</th>
-    <th>Tipo</th>
     <th>Sueldo</th>
+    <th>Postulantes</th>
     <th>Opciones</th>
 </tr>
 {% endblock thead %}
@@ -25,19 +25,32 @@
     <td>{{oferta.informacion_laboral}}</td>
     <td>{{oferta.informacion_laboral.actividades_desempenar}}</td>
     <td>{{oferta.empresa}}</td>
-    {% if oferta.tipo == 'T' %}
-    <td><code>Tecnico</code></td>
-    {% elif oferta.tipo == 'P' %}
-    <td><code>Profesional</code></td>
-    {% else %}
-    <td><code>Medicina</code></td>
-    {% endif %}
     <td>{{oferta.informacion_laboral.remuneracion_economica}}</td>
+    <td>
+        <ul>
+            {% for e in oferta.estudiante_set.all %}
+            <li>                
+                <a href="{% url 'estudiantepostulado' e.pk %}" title="Ver hoja de vida">{{e.user.first_name}} {{e.user.last_name}}</a>
+            </li>            
+            {% endfor %}
+        </ul>
+    </td>
+    {% for g in request.user.groups.all %}
+    {% if g.name == 'GrupoEmpresa' %}
     <td><a href="{% url 'editar_oferta_laboral' oferta.id_oferta_laboral %}" class="btn btn-warning"><i
                 class="fas fa-edit"></i></a>
         <a href="{% url 'eliminar_oferta_laboral' oferta.id_oferta_laboral %}" class="btn btn-danger"><i
                 class="fas fa-trash-alt"></i></a>
     </td>
+    {% endif %}
+    {% if g.name == 'administradores' %}
+    <td><a href="{% url 'editar_oferta_laboralAdmin' oferta.id_oferta_laboral %}" class="btn btn-warning"><i
+                class="fas fa-edit"></i></a>
+        <a href="{% url 'eliminar_oferta_laboral' oferta.id_oferta_laboral %}" class="btn btn-danger"><i
+                class="fas fa-trash-alt"></i></a>
+    </td>
+    {% endif %}
+    {% endfor %}
 </tr>
 {% endfor %}
 {% else %}

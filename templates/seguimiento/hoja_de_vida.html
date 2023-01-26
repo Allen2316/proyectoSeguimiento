@@ -1,0 +1,413 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<section class="section">
+    <div class="section-header">
+        <h1></h1>
+    </div>
+    <div class="section-body">        
+            <h2 class="section-title">Datos del estudiante</h2>                    
+        <div class="row">
+            {% if object_list %}
+            {% for est in object_list %}
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h4>{{est.user.first_name}} {{est.user.last_name}}</h4>
+
+                    </div>
+                    <div class="card-body">
+                        <p>Cedula: <code>{{est.cedula}}</code></p>
+                        <p>Correo:
+                            {% if est.user.email %}
+                            <b>{{est.user.email}}</b>
+                            {% else %}
+                            <b>No registra.</b>
+                            {% endif %}
+                        </p>
+                        <p>Telefono: <b>{{est.telefono}}</b></p>
+                        <p>Estado:
+                            {% if est.estado == 'G' %}
+                            <b>Graduado</b>
+                            {% else %}
+                            <b>Egresado</b>
+                            {% endif %}
+                        </p>
+                        <p>Carrera: <b>{{est.carrera}}</b></p>
+                    </div>
+                </div>
+            </div>
+
+            
+            
+            {% if est.estudiante.all %}
+            <h2 class="section-title ml-3">Hoja(s) de Vida</h2>                                
+                <div class="col-12 col-md-12 col-lg-12">
+                    {% for t in est.estudiante.all %}
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h4>
+                                <ul>
+                                    
+                                    <li>{{t}}</li>
+                                    
+                                </ul>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-responsive table-bordered table-md" id="data">
+                                <thead>
+                                    <tr>
+                                        <th>Componente</th>
+                                        <th>Informacion</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    
+                                    <tr>
+                                        <th class="align-middle">Instruccion formal</th>
+                                        <td>
+                                            <table class="table table-bordered table-md">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Titulo obtenido</th>
+                                                        <th>Nivel de instruccion</th>
+                                                        <th>Instruccion educativa</th>
+                                                        <th>Nro. del registro del senescyt</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaIF.all %}
+                                                                <li>{{intF}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaIF.all %}
+                                                                <li>{{intF.nivel_de_instruccion}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaIF.all %}
+                                                                <li>{{intF.instruccion_educativa}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaIF.all %}
+                                                                <li>{{intF.no_del_registro_senescyt}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle">Logros Personales</th>
+                                        <td>
+                                            <table class="table table-bordered table-md">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de logro</th>
+                                                        <th>Descripcion</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaLP.all %}
+                                                                <li>{{intF.tipo_logro}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaLP.all %}
+                                                                <li>{{intF.descripcion}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle">Preferencias Laborales</th>
+                                        <td>
+                                            <table class="table table-bordered table-md">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sector</th>
+                                                        <th>Aspiracion Salarial</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hoja.all %}
+                                                                <li>{{intF.sector}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hoja.all %}
+                                                                <li>$ {{intF.aspiracion_salarial}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle">Capacitaciones</th>
+                                        <td>
+                                            <table class="table table-bordered table-md">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Institucion</th>
+                                                        <th>Tipo de evento</th>
+                                                        <th>Area de estudio</th>
+                                                        <th>Nombre de evento</th>
+                                                        <th>Tipo de certificado</th>
+                                                        <th>Fecha</th>
+                                                        <th>Total de dias</th>
+                                                        <th>Total de horas</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaCap.all %}
+                                                                <li>{{intF.institucion}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                <!-- 'COF', 'Conferencia'),
+                                                                    ('TA', 'Taller'),
+                                                                    ('SE', 'Seminario'),
+                                                                    ('CO', 'Congreso'),
+                                                                    ('PA', 'Pasantia -->
+                                                                {% for intF in t.hojaCap.all %}
+
+                                                                {% if intF.tipo_de_evento == 'COF' %}
+                                                                Conferencia
+                                                                {% elif intF.tipo_de_evento == 'TA' %}
+                                                                Taller
+                                                                {% elif intF.tipo_de_evento == 'SE' %}
+                                                                Seminario
+                                                                {% elif intF.tipo_de_evento == 'CO' %}
+                                                                Congreso
+                                                                {% else %}
+                                                                Pasantia
+                                                                {% endif %}
+
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaCap.all %}
+                                                                <li>{{intF.area_de_estudio}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaCap.all %}
+                                                                <li>{{intF.nombre_de_evento}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaCap.all %}
+                                                                <li>{{intF.tipo_de_certificado}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaCap.all %}
+                                                                <li>{{intF.fecha_desde}} - {{intF.fecha_hasta}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaCap.all %}
+                                                                <li>{{intF.dias}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaCap.all %}
+                                                                <li>{{intF.horas}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle">Experiencia Laboral</th>
+                                        <td>
+                                            <table class="table table-bordered table-md">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Institucion</th>
+                                                        <th>Tipo de institucion</th>
+                                                        <th>Area de trabajo</th>
+                                                        <th>Puesto</th>
+                                                        <th>Actividades</th>
+                                                        <th>Fecha</th>
+                                                        <th>Aún trabaja aqui</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaEL.all %}
+                                                                <li>{{intF.institucion}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaEL.all %}
+                                                                <li>{{intF.tipo_de_institucion}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaEL.all %}
+                                                                <li>{{intF.area_de_trabajo}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaEL.all %}
+                                                                <li>{{intF.puesto}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaEL.all %}
+                                                                <li>{{intF.actividades}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaEL.all %}
+                                                                <li>{{intF.fecha_desde}} - {{intF.fecha_hasta}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaEL.all %}
+                                                                <li>
+                                                                    {% if intF.trabaja_actualmente_en_este_lugar == True %}
+                                                                    Si
+                                                                    {% else %}
+                                                                    No
+                                                                    {% endif %}
+                                                                </li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle">Referencias Personales</th>
+                                        <td>
+                                            <table class="table table-bordered table-md">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombres</th>
+                                                        <th>Telefono</th>
+                                                        <th>Correo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaRP.all %}
+                                                                <li>{{intF.nombres}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaRP.all %}
+                                                                <li>{{intF.telefono}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <ol>
+                                                                {% for intF in t.hojaRP.all %}
+                                                                <li>{{intF.correo}}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                    No registra ninguna hoja de vida
+            {% endif %}
+            {% endfor %}            
+            {% endif %}
+        </div>
+    </div>
+</section>
+</div>
+{% endblock content %}

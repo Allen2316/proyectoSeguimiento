@@ -9,7 +9,6 @@
 <tr>
     <th>Nombre</th>
     <th>Estado</th>
-    <th>Tipo</th>
     <th>Opciones</th>
 </tr>
 {% endblock thead %}
@@ -27,14 +26,6 @@
     <td>Rediseño</td>
     {% else %}
     <td>Ejecutandose</td>
-    {% endif %}
-
-    {% if carrera.tipo == 'T' %}
-    <td>Tecnico</td>
-    {% elif carrera.tipo == 'P' %}
-    <td>Profesional</td>
-    {% else %}
-    <td>Medicina</td>
     {% endif %}
     <td><a href="{% url 'editar_carrera' carrera.id_carrera %}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
         <a href="{% url 'eliminar_carrera' carrera.id_carrera %}" class="btn btn-danger"><i

@@ -121,7 +121,7 @@
   font-weight: 600;
 }
 .article.article-style-b .article-details p {
-  color: #34395e;
+  color: #14c30e;
 }
 .article.article-style-b .article-details .article-cta {
   text-align: right;
@@ -133,11 +133,11 @@
   text-transform: uppercase;
   margin-bottom: 5px;
   letter-spacing: 1px;
-  color: #34395e;
+  color: #14c30e;
 }
 .article.article-style-c .article-details .article-category a {
   font-size: 10px;
-  color: #34395e;
+  color: #14c30e;
   font-weight: 700;
 }
 .article.article-style-c .article-details .article-title {
@@ -151,7 +151,7 @@
   font-weight: 600;
 }
 .article.article-style-c .article-details p {
-  color: #34395e;
+  color: #14c30e;
 }
 .article.article-style-c .article-user {
   display: inline-block;
@@ -225,7 +225,7 @@
   font-weight: 600;
   letter-spacing: 0.5px;
   font-size: 12px;
-  color: #34395e;
+  color: #14c30e;
 }
 .author-box .author-box-description {
   line-height: 26px;
@@ -309,7 +309,7 @@
 }
 .chat-box .chat-content .chat-item.chat-right .chat-details .chat-text {
   text-align: left;
-  background-color: #6777ef;
+  background-color: #14c30e;
   color: #fff;
 }
 .chat-box .chat-content .chat-item > img {
@@ -443,25 +443,25 @@ div.dataTables_wrapper div.dataTables_processing {
 }
 
 .ranges li {
-  color: #6777ef;
+  color: #14c30e;
 }
 .ranges li:hover, .ranges li.active {
-  background-color: #6777ef;
+  background-color: #14c30e;
 }
 
 .daterangepicker td.active, .daterangepicker td.active:hover {
-  background-color: #6777ef;
+  background-color: #14c30e;
 }
 
 /* 1.10 Dropzone */
 .dropzone {
-  border: 2px dashed #6777ef;
+  border: 2px dashed #14c30e;
   min-height: 240px;
   text-align: center;
 }
 .dropzone .dz-message {
   font-size: 24px;
-  color: #34395e;
+  color: #14c30e;
   margin: 3.4em;
 }
 .dropzone .dz-preview .dz-details {
@@ -500,7 +500,7 @@ div.dataTables_wrapper div.dataTables_processing {
 
 .fc-view {
   border-color: #f2f2f2;
-  color: #34395e !important;
+  color: #14c30e !important;
   font-weight: 500;
   padding: 10px;
 }
@@ -512,7 +512,7 @@ div.dataTables_wrapper div.dataTables_processing {
 }
 .fc-view > table th {
   border-color: #f2f2f2;
-  color: #34395e !important;
+  color: #14c30e !important;
   font-weight: 500;
   padding: 10px;
 }
@@ -568,7 +568,7 @@ tr:first-child > td > .fc-day-grid-event {
   border-radius: 0;
 }
 .fc button.fc-state-active {
-  background-color: #6777ef;
+  background-color: #14c30e;
   color: #fff;
 }
 
@@ -731,7 +731,7 @@ tr:first-child > td > .fc-day-grid-event {
   width: 13px;
   height: 13px;
   background-color: #fff;
-  border: 3px solid #6777ef;
+  border: 3px solid #14c30e;
   border-radius: 50%;
 }
 
@@ -787,7 +787,7 @@ tr:first-child > td > .fc-day-grid-event {
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.5px;
-  color: #34395e;
+  color: #14c30e;
 }
 .profile-widget .profile-widget-items .profile-widget-item .profile-widget-item-value {
   color: #000;
@@ -844,15 +844,15 @@ tr:first-child > td > .fc-day-grid-event {
 
 .select2-container.select2-container--open .select2-selection--multiple {
   background-color: #fefeff;
-  border-color: #95a0f4;
+  border-color: #14c30e;
 }
 .select2-container.select2-container--focus .select2-selection--multiple, .select2-container.select2-container--focus .select2-selection--single {
   background-color: #fefeff;
-  border-color: #95a0f4;
+  border-color: #14c30e;
 }
 .select2-container.select2-container--open .select2-selection--single {
   background-color: #fefeff;
-  border-color: #95a0f4;
+  border-color: #14c30e;
 }
 
 .select2-results__option {
@@ -894,7 +894,7 @@ tr:first-child > td > .fc-day-grid-event {
 .select2-container--default .select2-selection--multiple .select2-selection__choice,
 .select2-container--default .select2-results__option[aria-selected=true],
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: #6777ef;
+  background-color: #14c30e;
   color: #fff;
 }
 
@@ -917,7 +917,7 @@ tr:first-child > td > .fc-day-grid-event {
 }
 .selectric:focus {
   background-color: #fefeff;
-  border-color: #95a0f4;
+  border-color: #14c30e;
 }
 .selectric .label {
   font-size: 13px;
@@ -932,7 +932,7 @@ tr:first-child > td > .fc-day-grid-event {
 }
 
 .selectric-open .selectric {
-  border-color: #6777ef;
+  border-color: #14c30e;
 }
 
 .selectric-above .selectric-items, .selectric-below .selectric-items {
@@ -953,7 +953,7 @@ tr:first-child > td > .fc-day-grid-event {
   background-color: #f2f2f2;
 }
 .selectric-items li.selected, .selectric-items li.highlighted {
-  background-color: #6777ef;
+  background-color: #14c30e;
   color: #fff;
 }
 
@@ -1032,7 +1032,7 @@ tr:first-child > td > .fc-day-grid-event {
 .statistic-details .statistic-details-item .detail-name {
   font-size: 12px;
   margin-top: 5px;
-  color: #34395e;
+  color: #14c30e;
   letter-spacing: 0.3px;
 }
 .statistic-details .statistic-details-item .detail-value {
@@ -1105,8 +1105,8 @@ tr:first-child > td > .fc-day-grid-event {
   box-shadow: none;
 }
 .swal-button.swal-button--confirm {
-  box-shadow: 0 2px 6px #acb5f6;
-  background-color: #6777ef;
+  box-shadow: 0 2px 6px #14c30e;
+  background-color: #14c30e;
 }
 .swal-button.swal-button--confirm:focus {
   opacity: 0.8;
@@ -1136,7 +1136,7 @@ tr:first-child > td > .fc-day-grid-event {
   padding: 0 8px;
 }
 .bootstrap-tagsinput .tag {
-  background-color: #6777ef;
+  background-color: #14c30e;
   border-radius: 3px;
   padding: 5px 10px;
 }
@@ -1145,7 +1145,7 @@ tr:first-child > td > .fc-day-grid-event {
 }
 .bootstrap-tagsinput:focus {
   background-color: #fefeff;
-  border-color: #95a0f4;
+  border-color: #14c30e;
 }
 
 /* 1.27 Time Picker */
@@ -1286,7 +1286,7 @@ tr:first-child > td > .fc-day-grid-event {
 }
 .weather .weather-desc .weather-text {
   font-size: 12px;
-  color: #34395e;
+  color: #14c30e;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -1302,10 +1302,10 @@ tr:first-child > td > .fc-day-grid-event {
   padding: 10px;
   line-height: 1;
   border-radius: 3px;
-  border: 2px solid #6777ef;
+  border: 2px solid #14c30e;
   font-size: 10px;
   font-weight: 500;
-  color: #6777ef;
+  color: #14c30e;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 10px;
@@ -1343,7 +1343,7 @@ tr:first-child > td > .fc-day-grid-event {
 .icon-wrap .icon_unicode {
   width: 100%;
   padding-left: 45px;
-  color: #34395e;
+  color: #14c30e;
 }
 
 .new-icons ul {
@@ -1424,7 +1424,7 @@ tr:first-child > td > .fc-day-grid-event {
   margin-bottom: 10px;
 }
 .product-item .product-name {
-  color: #34395e;
+  color: #14c30e;
   font-weight: 700;
   margin-bottom: 3px;
 }
@@ -1463,7 +1463,7 @@ tr:first-child > td > .fc-day-grid-event {
   display: flex;
   font-size: 12px;
   font-weight: 500;
-  color: #34395e;
+  color: #14c30e;
   letter-spacing: 0.5px;
 }
 .tickets-list .ticket-item .ticket-info .bullet {
@@ -1489,12 +1489,12 @@ tr:first-child > td > .fc-day-grid-event {
   background-color: rgba(63, 82, 227, 0.03);
 }
 .tickets .ticket-items .ticket-item:hover .ticket-title {
-  color: #6777ef;
+  color: #14c30e;
 }
 .tickets .ticket-items .ticket-item.active {
-  box-shadow: 0 2px 6px #acb5f6;
+  box-shadow: 0 2px 6px #14c30e;
   border-radius: 3px;
-  background-color: #6777ef;
+  background-color: #14c30e;
   border-bottom: none;
 }
 .tickets .ticket-items .ticket-item.active .ticket-title, .tickets .ticket-items .ticket-item.active .ticket-desc {
@@ -1512,7 +1512,7 @@ tr:first-child > td > .fc-day-grid-event {
   display: flex;
   font-size: 11px;
   font-weight: 500;
-  color: #34395e;
+  color: #14c30e;
   letter-spacing: 0.5px;
 }
 .tickets .ticket-items .ticket-item .ticket-desc .bullet {
@@ -1543,7 +1543,7 @@ tr:first-child > td > .fc-day-grid-event {
   letter-spacing: 0.3px;
   font-size: 12px;
   font-weight: 500;
-  color: #34395e;
+  color: #14c30e;
 }
 .tickets .ticket-content .ticket-header .ticket-detail .ticket-info .bullet {
   margin: 0 10px;
@@ -1555,7 +1555,7 @@ tr:first-child > td > .fc-day-grid-event {
   background-color: #f2f2f2;
 }
 .tickets .ticket-description {
-  color: #34395e;
+  color: #14c30e;
   font-weight: 500;
   margin-top: 30px;
   line-height: 28px;
@@ -1567,7 +1567,7 @@ tr:first-child > td > .fc-day-grid-event {
   margin-top: 40px;
 }
 .tickets .ticket-description .ticket-form .note-editable {
-  color: #34395e;
+  color: #14c30e;
   font-weight: 500;
 }
 .tickets .ticket-description .ticket-form .note-editable p {
@@ -1620,7 +1620,7 @@ tr:first-child > td > .fc-day-grid-event {
   margin-top: 20px !important;
 }
 .owl-theme .owl-dots .owl-dot.active span {
-  background-color: #6777ef;
+  background-color: #14c30e;
 }
 
 /* 1.36 Activities */
@@ -1640,7 +1640,7 @@ tr:first-child > td > .fc-day-grid-event {
   top: 0;
   width: 2px;
   height: 100%;
-  background-color: #6777ef;
+  background-color: #14c30e;
 }
 .activities .activity:last-child:before {
   display: none;
@@ -1716,7 +1716,7 @@ tr:first-child > td > .fc-day-grid-event {
 }
 .invoice .invoice-detail-item .invoice-detail-value {
   font-size: 18px;
-  color: #34395e;
+  color: #14c30e;
   font-weight: 700;
 }
 .invoice .invoice-detail-item .invoice-detail-value.invoice-detail-value-lg {
@@ -1739,7 +1739,7 @@ tr:first-child > td > .fc-day-grid-event {
 }
 .empty-state .empty-state-icon {
   position: relative;
-  background-color: #6777ef;
+  background-color: #14c30e;
   width: 80px;
   height: 80px;
   line-height: 100px;
@@ -1770,11 +1770,11 @@ tr:first-child > td > .fc-day-grid-event {
   text-align: center;
 }
 .pricing.pricing-highlight .pricing-title {
-  background-color: #6777ef;
+  background-color: #14c30e;
   color: #fff;
 }
 .pricing.pricing-highlight .pricing-cta a {
-  background-color: #6777ef;
+  background-color: #14c30e;
   color: #fff;
 }
 .pricing.pricing-highlight .pricing-cta a:hover {
@@ -1789,7 +1789,7 @@ tr:first-child > td > .fc-day-grid-event {
   text-transform: uppercase;
   letter-spacing: 2.5px;
   background-color: #f3f6f8;
-  color: #6777ef;
+  color: #14c30e;
   border-radius: 0 0 3px 3px;
   display: inline-block;
   padding: 5px 15px;
@@ -1888,7 +1888,7 @@ tr:first-child > td > .fc-day-grid-event {
  * Thanks to Spectre.css
  */
 .avatar {
-  background: #6777ef;
+  background: #14c30e;
   border-radius: 50%;
   color: #e3eaef;
   display: inline-block;
@@ -2011,12 +2011,12 @@ tr:first-child > td > .fc-day-grid-event {
   background-color: #e3eaef;
 }
 .wizard-steps .wizard-step.wizard-step-active {
-  box-shadow: 0 2px 6px #acb5f6;
-  background-color: #6777ef;
+  box-shadow: 0 2px 6px #14c30e;
+  background-color: #14c30e;
   color: #fff;
 }
 .wizard-steps .wizard-step.wizard-step-active:before {
-  background-color: #6777ef;
+  background-color: #14c30e;
   color: #fff;
 }
 .wizard-steps .wizard-step.wizard-step-success {

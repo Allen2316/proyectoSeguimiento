@@ -55,6 +55,9 @@
               {% csrf_token %}
 
               <!-- pregunta[1].eleccion_set.all()  -->
+              {% if error_message %} <p><strong>{{ error_message }}</strong></p>
+              {% else %}
+
               {% for p in pregunta %}
               {% if error_message %} <p><strong>{{ error_message }}</strong></p> {% endif %}
 
@@ -67,8 +70,7 @@
                 <label class="custom-control-label" for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">Muy
                   Malo</label>
                 {% elif e.texto_eleccion == 2 %}
-                <label class="custom-control-label"
-                for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">Malo</label>
+                <label class="custom-control-label" for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">Malo</label>
                 {% elif e.texto_eleccion == 3 %}
                 <label class="custom-control-label"
                   for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">Normal</label>
@@ -85,7 +87,7 @@
                   for="{{ p.id_pregunta }}eleccion{{ forloop.counter }}">{{e.texto_eleccion}}</label>
                 {% endif %}
               </div>
-              {% endfor %}                            
+              {% endfor %}
               <br>
               <br>
               {% endfor %}
@@ -93,6 +95,7 @@
               <button type="submit" class="btn btn-success">
                 <i class="fas fa-user"></i> Guardar
               </button>
+              {% endif %}
               {% block volver %}
               {% endblock volver %}
           </div>

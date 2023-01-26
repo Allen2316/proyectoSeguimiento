@@ -1,15 +1,46 @@
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404, reverse
 from django.urls import reverse_lazy
 from app.seguimiento import models
 from app.seguimiento import forms
 from django.db.models import F
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
+from django.utils.decorators import method_decorator
+from django.contrib import messages
+from django.core.serializers import json
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
 
-def dashboard(request):
+def logueo(request):
+    if request.method == 'POST':
+        formulario = forms.FrmLogin(request.POST)
+        if formulario.is_valid():
+            usuario = request.POST['username']
+            clave = request.POST['password']
+            user = authenticate(username=usuario, password=clave)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('lista_oferta_laboral_index'))
+                else:
+                    return HttpResponseRedirect(reverse(''))
+            else:
+                messages.warning(request, 'Usuario y/o contraseña incorrecta')
+    else:
+        formulario = forms.FrmLogin()
+    context = {
+        'form': formulario
+    }
+    return render(request, 'login.html', context)
 
+
+@login_required
+def dashboard(request):
     return render(request, 'seguimiento/dashboard.html')
 
 
@@ -19,6 +50,10 @@ class RegistrarCarrera(CreateView):
     template_name = 'seguimiento/FrmCarrera.html'
     form_class = forms.FrmCarrera
     success_url = reverse_lazy('lista_carrera')
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(RegistrarCarrera, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(RegistrarCarrera, self).get_context_data(**kwargs)
@@ -63,22 +98,31 @@ class RegistrarEstudiante(CreateView):
     model = models.Estudiante
     template_name = 'seguimiento/FrmEstudiante.html'
     form_class = forms.FrmEstudiante
+    second_form_class = forms.FrmUser
     success_url = reverse_lazy('lista_estudiante')
 
     def get_context_data(self, **kwargs):
         context = super(RegistrarEstudiante, self).get_context_data(**kwargs)
         if 'form' not in context:
             context['form'] = self.form_class(self.request.GET)
+
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(self.request.GET)
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
+        form2 = self.second_form_class(request.POST)
+        if form.is_valid() and form2.is_valid():
+            estudiante = form.save(commit=False)
+            estudiante.user = form2.save()
+            estudiante.save()
+            group = Group.objects.get(name='GrupoEstudiante')
+            estudiante.user.groups.add(group)
             return HttpResponseRedirect(self.get_success_url())
         else:
-            return self.render_to_response(self.get_context_data(form=form))
+            return self.render_to_response(self.get_context_data(form=form, form2=form2))
 
 
 class RegistrarMejorGraduado(CreateView):
@@ -108,19 +152,27 @@ class RegistrarEmpresa(CreateView):
     model = models.Empresa
     template_name = 'seguimiento/FrmEmpresa.html'
     form_class = forms.FrmEmpresa
+    second_form_class = forms.FrmUserEmp
     success_url = reverse_lazy('lista_empresa')
 
     def get_context_data(self, **kwargs):
         context = super(RegistrarEmpresa, self).get_context_data(**kwargs)
         if 'form' not in context:
             context['form'] = self.form_class(self.request.GET)
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(self.request.GET)
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
+        form2 = self.second_form_class(request.POST)
+        if form.is_valid() and form2.is_valid():
+            emp = form.save(commit=False)
+            emp.user = form2.save()
+            emp.save()
+            group = Group.objects.get(name='GrupoEmpresa')
+            emp.user.groups.add(group)
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
@@ -135,6 +187,41 @@ class RegistrarOfertaLaboral(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(RegistrarOfertaLaboral,
+                        self).get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET)
+
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(self.request.GET)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        form2 = self.second_form_class(request.POST)
+        if form.is_valid() and form2.is_valid():
+            oferta = form.save(commit=False)
+            oferta.informacion_laboral = form2.save()
+            oferta.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form, form2=form2))
+
+    def get_initial(self):
+        empresa = models.Empresa.objects.get(
+            pk=self.request.user.empresa.pk)
+        return {'empresa': empresa}
+
+
+class RegistrarOfertaLaboralAdmin(CreateView):
+    model = models.Oferta_Laboral
+    template_name = 'seguimiento/FrmOferta_Laboral.html'
+    form_class = forms.FrmOferta_LaboralAdmin
+    second_form_class = forms.FrmInformacion_laboral
+    success_url = reverse_lazy('lista_oferta_laboral')
+
+    def get_context_data(self, **kwargs):
+        context = super(RegistrarOfertaLaboralAdmin,
                         self).get_context_data(**kwargs)
         if 'form' not in context:
             context['form'] = self.form_class(self.request.GET)
@@ -187,27 +274,34 @@ class RegistrarEncuesta(CreateView):
             return self.render_to_response(self.get_context_data(form=form, form2=form2))
 
 
+@login_required
 def RegistrarEleccionf(request, id_oferta_laboral):
-    oferta = get_object_or_404(models.Oferta_Laboral,
-                               id_oferta_laboral=id_oferta_laboral)
+    try:
+        oferta = get_object_or_404(models.Oferta_Laboral,
+                                   id_oferta_laboral=id_oferta_laboral)
 
-    #encuesta = oferta.encuesta_set.all()
-    encuesta = get_object_or_404(
-        models.Encuesta_Laboral,
-        id_encuesta_laboral=oferta.encuesta.id_encuesta_laboral)
+        # encuesta = oferta.encuesta_set.all()
+        encuesta = get_object_or_404(
+            models.Encuesta_Laboral,
+            id_encuesta_laboral=oferta.encuesta.id_encuesta_laboral)
 
-    pregunta = encuesta.pregunta_set.all()
+        pregunta = encuesta.pregunta_set.all()
 
+        context = {
+            'pregunta': pregunta,
+            # 'eleccion': eleccion,
+        }
     # pregunta[1].eleccion_set.all()
-
-    context = {
-        'pregunta': pregunta,
-        # 'eleccion': eleccion,
-    }
+    except:
+        context = {
+            'error_message': 'Error al ejecutar porque la oferta no tiene ninguna encuesta',
+            # 'eleccion': eleccion,
+        }
 
     return render(request, 'seguimiento/FrmEleccion.html', context)
 
 
+@login_required
 def voto(request):
     valores = request.POST
     lista = []
@@ -239,32 +333,10 @@ def voto(request):
     return HttpResponseRedirect(reverse('lista_oferta_laboral_index',))
 
 
-""" class RegistrarEleccion(CreateView):
-    model = models.Eleccion
-    template_name = 'seguimiento/FrmEleccion.html'
-    form_class = forms.FrmEleccion
-    success_url = reverse_lazy('lista_eleccion')
-
-    def get_context_data(self, **kwargs):
-        context = super(RegistrarEleccion,
-                        self).get_context_data(**kwargs)
-        if 'form' not in context:
-            context['form'] = self.form_class(self.request.GET)
-
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            return self.render_to_response(self.get_context_data(form=form)) """
-
-
 class RegistrarHojaDeVida(CreateView):
-    model = models.Logros_Personales
+    #!TODO hacer aca
+    #model = models.Logros_Personales
+    model = models.Hoja_de_vida
     template_name = 'seguimiento/FrmHoja_de_vida.html'
     form_class = forms.FrmHoja_de_vida
     second_form_class = forms.FrmLogros_Personales1
@@ -343,27 +415,99 @@ class RegistrarHojaDeVida(CreateView):
         else:
             return self.render_to_response(self.get_context_data(form=form, form2=form2, form3=form3, form4=form4, form5=form5, form6=form6, form7=form7,))
 
+    def get_initial(self):
+        print(self.request.user.estudiante.pk)
+        estudiante = models.Estudiante.objects.get(
+            pk=self.request.user.estudiante.pk)
+        return {'estudiante': estudiante}
 
-""" class RegistrarHojaDeVida(CreateView):
+    """ def get_initial(self):
+        empresa = models.Empresa.objects.get(
+            pk=self.request.user.empresa.pk)
+        return {'empresa': empresa} """
+
+
+class RegistrarHojaDeVidaAdmin(CreateView):
+    #!TODO hacer aca
+    #model = models.Logros_Personales
     model = models.Hoja_de_vida
     template_name = 'seguimiento/FrmHoja_de_vida.html'
-    form_class = forms.FrmHoja_de_vida
+    form_class = forms.FrmHoja_de_vidaAdmin
+    second_form_class = forms.FrmLogros_Personales1
+    t_form_class = forms.FrmPreferencias_Laborales1
+    f_form_class = forms.FrmCapacitaciones1
+    fth_form_class = forms.FrmExperiencia_Laboral1
+    s_form_class = forms.FrmInstruccion_formal1
+    sth_form_class = forms.FrmReferencias_Personales1
+
     success_url = reverse_lazy('lista_hoja_de_vida')
 
     def get_context_data(self, **kwargs):
-        context = super(RegistrarHojaDeVida, self).get_context_data(**kwargs)
+        context = super(RegistrarHojaDeVidaAdmin,
+                        self).get_context_data(**kwargs)
         if 'form' not in context:
             context['form'] = self.form_class(self.request.GET)
+
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(self.request.GET)
+
+        if 'form3' not in context:
+            context['form3'] = self.t_form_class(self.request.GET)
+
+        if 'form4' not in context:
+            context['form4'] = self.f_form_class(self.request.GET)
+
+        if 'form5' not in context:
+            context['form5'] = self.fth_form_class(self.request.GET)
+
+        if 'form6' not in context:
+            context['form6'] = self.s_form_class(self.request.GET)
+
+        if 'form7' not in context:
+            context['form7'] = self.sth_form_class(self.request.GET)
+
+        context['tam'] = 7
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
+        form2 = self.second_form_class(request.POST)
+        form3 = self.t_form_class(request.POST)
+        form4 = self.f_form_class(request.POST)
+        form5 = self.fth_form_class(request.POST)
+        form6 = self.s_form_class(request.POST)
+        form7 = self.sth_form_class(request.POST)
+
+        if form.is_valid() and form2.is_valid() and form3.is_valid() and form4.is_valid() and form5.is_valid() and form6.is_valid() and form7.is_valid():
+            logros_personales = form2.save(commit=False)
+            logros_personales.hoja_de_vida = form.save()
+
+            preferencias_laborales = form3.save(commit=False)
+            preferencias_laborales.hoja_de_vida = form.save()
+
+            capacitaciones = form4.save(commit=False)
+            capacitaciones.hoja_de_vida = form.save()
+
+            experiencia_laboral = form5.save(commit=False)
+            experiencia_laboral.hoja_de_vida = form.save()
+
+            instruccion_formal = form6.save(commit=False)
+            instruccion_formal.hoja_de_vida = form.save()
+
+            referencias_personales = form7.save(commit=False)
+            referencias_personales.hoja_de_vida = form.save()
+
+            logros_personales.save()
+            preferencias_laborales.save()
+            capacitaciones.save()
+            experiencia_laboral.save()
+            instruccion_formal.save()
+            referencias_personales.save()
+
             return HttpResponseRedirect(self.get_success_url())
         else:
-            return self.render_to_response(self.get_context_data(form=form)) """
+            return self.render_to_response(self.get_context_data(form=form, form2=form2, form3=form3, form4=form4, form5=form5, form6=form6, form7=form7,))
 
 
 class RegistrarLogrosPersonales(CreateView):
@@ -520,23 +664,51 @@ class EditarPeriodoAcademico(UpdateView):
     template_name = 'seguimiento/FrmPeriodo_Academico.html'
     success_url = reverse_lazy('lista_periodo_academico')
 
-""" from app.seguimiento import models 
-    from django.db.models import F
-"""
+
 class EditarEstudiante(UpdateView):
+
+    """ def get_queryset(self):
+        base_qs = super(EditarEstudiante, self).get_queryset()
+        return base_qs.get(user=self.request.user) """
+
     model = models.Estudiante
+    second_model = User
+    #form_class = forms.FrmEstudianteUpdate(user=get_queryset())
     form_class = forms.FrmEstudianteUpdate
+    second_form_class = forms.FrmUserEd
     template_name = 'seguimiento/FrmEstudiante.html'
     success_url = reverse_lazy('lista_estudiante')
 
-    """ def get_context_data(self):
-        
-        context = super(EditarEstudiante, self).get_context_data()
-                                  
-        if 'oferta' not in context:            
-            context['oferta'] = models.Oferta_Laboral.objects.filter(tipo=F('estudiante__carrera__tipo'))
-            context['oferta'] = models.Oferta_Laboral.objects.estudiante_set().filter(tipo=es.carrera.tipo)
-        return context """
+    def __init__(self, *args, **kwargs):
+        super(EditarEstudiante, self).__init__(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(EditarEstudiante, self).get_context_data(**kwargs)
+
+        pk1 = self.kwargs.get('pk', 0)
+        est = self.model.objects.get(pk=pk1)
+        user = self.second_model.objects.get(pk=est.user.pk)
+
+        if 'form' not in context:
+            context['form'] = self.form_class()
+
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(instance=user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        id_est = kwargs['pk']
+        est = self.model.objects.get(pk=id_est)
+        user = self.second_model.objects.get(pk=est.user.pk)
+        form = self.form_class(request.POST, instance=est)
+        form2 = self.second_form_class(request.POST, instance=user)
+        if form.is_valid() and form2.is_valid():
+            form.save()
+            form2.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form, form2=form2))
 
 
 class EditarMejorGraduado(UpdateView):
@@ -548,9 +720,38 @@ class EditarMejorGraduado(UpdateView):
 
 class EditarEmpresa(UpdateView):
     model = models.Empresa
+    second_model = User
     form_class = forms.FrmEmpresa
+    second_form_class = forms.FrmUserEmpEd
     template_name = 'seguimiento/FrmEmpresa.html'
     success_url = reverse_lazy('lista_empresa')
+
+    def get_context_data(self, **kwargs):
+        context = super(EditarEmpresa, self).get_context_data(**kwargs)
+        pk1 = self.kwargs.get('pk', 0)
+        emp = self.model.objects.get(pk=pk1)
+        user = self.second_model.objects.get(pk=emp.user.pk)
+
+        if 'form' not in context:
+            context['form'] = self.form_class()
+
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(instance=user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        pk = kwargs['pk']
+        emp = self.model.objects.get(pk=pk)
+        user = self.second_model.objects.get(pk=emp.user.pk)
+        form = self.form_class(request.POST, instance=emp)
+        form2 = self.second_form_class(request.POST, instance=user)
+        if form.is_valid() and form2.is_valid():
+            form.save()
+            form2.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form, form2=form2))
 
 
 class EditarOfertaLaboral(UpdateView):
@@ -563,6 +764,43 @@ class EditarOfertaLaboral(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EditarOfertaLaboral, self).get_context_data(**kwargs)
+        pk1 = self.kwargs.get('pk', 0)
+        oferta = self.model.objects.get(id_oferta_laboral=pk1)
+        info = self.second_model.objects.get(pk=oferta.informacion_laboral.pk)
+
+        if 'form' not in context:
+            context['form'] = self.form_class()
+
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(instance=info)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        id_oferta = kwargs['pk']
+        oferta = self.model.objects.get(id_oferta_laboral=id_oferta)
+        info = self.second_model.objects.get(pk=oferta.informacion_laboral.pk)
+        form = self.form_class(request.POST, instance=oferta)
+        form2 = self.second_form_class(request.POST, instance=info)
+        if form.is_valid() and form2.is_valid():
+            form.save()
+            form2.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form, form2=form2))
+
+
+class EditarOfertaLaboralAdmin(UpdateView):
+    model = models.Oferta_Laboral
+    second_model = models.Informacion_laboral
+    form_class = forms.FrmOferta_LaboralAdmin
+    second_form_class = forms.FrmInformacion_laboral
+    template_name = 'seguimiento/FrmOferta_Laboral.html'
+    success_url = reverse_lazy('lista_oferta_laboral')
+
+    def get_context_data(self, **kwargs):
+        context = super(EditarOfertaLaboralAdmin,
+                        self).get_context_data(**kwargs)
         pk1 = self.kwargs.get('pk', 0)
         oferta = self.model.objects.get(id_oferta_laboral=pk1)
         info = self.second_model.objects.get(pk=oferta.informacion_laboral.pk)
@@ -871,10 +1109,52 @@ class ListarOfertaLaboral(ListView):
     model = models.Oferta_Laboral
     template_name = 'seguimiento/ListaOferta_Laboral.html'
 
+    def get_queryset(self, **kwargs):
+        if not self.request.user.is_superuser:
+            qs = super().get_queryset(**kwargs)
+            try:
+                return qs.filter(empresa_id=self.request.user.empresa.pk)
+            except:
+                return qs.all()
+        else:
+            qs = super().get_queryset(**kwargs)
+            return qs.all()
+
 
 class ListarOfertaLaboralIndex(ListView):
     model = models.Oferta_Laboral
     template_name = 'seguimiento/dashboard.html'
+
+    def get_queryset(self, **kwargs):
+        if not self.request.user.is_superuser:
+            qs = super().get_queryset(**kwargs)
+            try:
+                return qs.filter(empresa_id=self.request.user.empresa.pk)
+            except:
+                return qs.all()
+        else:
+            qs = super().get_queryset(**kwargs)
+            return qs.all()
+
+###
+
+
+class ListarOfertaLaboralTotal(ListView):
+    model = models.Oferta_Laboral
+    template_name = 'seguimiento/oferta_laboral.html'
+
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset(**kwargs)
+        return qs.filter(pk=self.kwargs['pk'])
+
+## ver estudiante postulado
+class ListarHojaDeVidaEstudiante(ListView):
+    model = models.Estudiante
+    template_name = 'seguimiento/hoja_de_vida.html'
+
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset(**kwargs)
+        return qs.filter(pk=self.kwargs['pk'])
 
 
 class ListarEncuestaLaboral(ListView):
@@ -920,3 +1200,21 @@ class ListarInstruccionFormal(ListView):
 class ListarReferenciasPersonales(ListView):
     model = models.Referencias_Personales
     template_name = 'seguimiento/ListaReferencias_Personales.html'
+
+
+# buscadores
+@login_required
+def SeleccionarOferta(request, pk):
+
+    oferta = models.Oferta_Laboral.objects.get(pk=pk)
+
+    estudiante = models.Estudiante.objects.get(pk=request.user.estudiante.pk)
+
+    try:
+        ofEst = estudiante.oferta.get(pk=pk)        
+        estudiante.oferta.remove(oferta)
+    except Exception as e:
+        estudiante.oferta.add(oferta)
+    
+
+    return HttpResponseRedirect(reverse('lista_oferta_laboral_index',))

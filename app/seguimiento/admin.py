@@ -20,20 +20,37 @@ class Encuesta_Laboral_Admin(admin.ModelAdmin):
     search_fields = ['texto_pregunta']
 
 
+class estudianteAdminSearch(admin.ModelAdmin):
+    search_fields = ['cedula']
+
+
+class hojaAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['estudiante']
+
+
+
+class empresaAdminSearch(admin.ModelAdmin):
+    search_fields = ['contacto']
+
+
+class ofertaAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['empresa']
+
+
 
 
 
 admin.site.register(
     Encuesta_Laboral, Encuesta_Laboral_Admin)
 admin.site.register(Eleccion)
-admin.site.register(Empresa)
+admin.site.register(Empresa, empresaAdminSearch)
 admin.site.register(Informacion_laboral)
-admin.site.register(Oferta_Laboral)
+admin.site.register(Oferta_Laboral, ofertaAdmin)
 admin.site.register(Carrera)
-admin.site.register(Estudiante)
+admin.site.register(Estudiante, estudianteAdminSearch)
 admin.site.register(Periodo_Academico)
 admin.site.register(Mejor_Graduado)
-admin.site.register(Hoja_de_vida)
+admin.site.register(Hoja_de_vida, hojaAdmin)
 admin.site.register(Logros_Personales)
 admin.site.register(Preferencias_Laborales)
 admin.site.register(Capacitaciones)

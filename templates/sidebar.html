@@ -2,15 +2,68 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{% url 'index' %}">Stisla</a>
+            <a href="{% url 'index' %}">ISLA</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{% url 'index' %}">St</a>
+            <a href="{% url 'index' %}">ISLA</a>
         </div>
         <ul class="sidebar-menu">
-            <li class="menu-header">Inicio</li>
+            <li class="menu-header"><b style="color: black;">Inicio</b></li>
             <li><a class="nav-link" href="{% url 'index' %}"><i class="fas fa-fire"></i> <span>Inicio</span></a></li>
-            <li class="menu-header">Administración</li>
+            <li class="menu-header"><b style="color: black;">Administración</b></li>
+            {% for g in request.user.groups.all %}
+            {% if g.name == 'GrupoEstudiante' or g.name == 'administradores' %}
+            
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Hojas de Vida</span></a>
+                <ul class="dropdown-menu">
+                    {% if g.name == 'GrupoEstudiante'%}
+                    <li><a class="nav-link" href="{% url 'registro_hoja_de_vida' %}">Nueva hoja de vida</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_hoja_de_vida' %}">Lista de hojas de vida</a></li>
+                    {% endif %}
+                    {% if g.name == 'administradores' %}
+                    <li><a class="nav-link" href="{% url 'registro_hoja_de_vidaAdmin' %}">Nueva hoja de vida</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_hoja_de_vida' %}">Lista de hojas de vida</a></li>
+                    {% endif %}
+                    <li><a class="nav-link" href="{% url 'registro_logros_personales' %}">Nuevo Logro</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_logros_personales' %}">Lista de logros</a></li>
+                    <li><a class="nav-link" href="{% url 'registro_preferencias_laborales' %}">Nueva Prefencia</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_preferencias_laborales' %}">Lista de Preferencias</a>
+                    </li>
+                    <li><a class="nav-link" href="{% url 'registro_capacitaciones' %}">Nueva Capacitacion</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_capacitaciones' %}">Lista de Capacitaciones</a></li>
+                    <li><a class="nav-link" href="{% url 'registro_experiencia_laboral' %}">Nueva Experiencia</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_experiencia_laboral' %}">Lista de Experiencia</a></li>
+                    <li><a class="nav-link" href="{% url 'registro_instruccion_formal' %}">Nueva Instruccion</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_instruccion_formal' %}">Lista de Instruccion</a></li>
+                    <li><a class="nav-link" href="{% url 'registro_referencias_personales' %}">Nueva Referencias</a>
+                    </li>
+                    <li><a class="nav-link" href="{% url 'lista_referencias_personales' %}">Lista Referencias</a></li>
+                </ul>
+            </li>
+            {% endif %}
+            {% if g.name == 'GrupoEmpresa'%}
+        
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Oferta Laboral</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{% url 'registro_oferta_laboral' %}">Nueva Oferta</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_oferta_laboral' %}">Lista de Ofertas</a></li>
+                </ul>
+            </li>
+            {% endif %}
+            {% if g.name == 'administradores'%}
+        
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Oferta Laboral</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{% url 'registro_oferta_laboralAdmin' %}">Nueva Oferta</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_oferta_laboral' %}">Lista de Ofertas</a></li>
+                </ul>
+            </li>
+            {% endif %}
+            {% if g.name == 'administradores' %}
+            
             <li class="dropdown">
                 <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Carrera</span></a>
                 <ul class="dropdown-menu">
@@ -20,8 +73,9 @@
             </li>
             <li class="dropdown">
                 <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Periodo Académico</span></a>
-                <ul class="dropdown-menu">                    
-                    <li><a class="nav-link" href="{% url 'registro_periodo_academico' %}">Nueva Periodo Académico</a></li>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{% url 'registro_periodo_academico' %}">Nuevo Periodo Académico</a>
+                    </li>
                     <li><a class="nav-link" href="{% url 'lista_periodo_academico' %}">Lista</a></li>
                 </ul>
             </li>
@@ -29,7 +83,7 @@
                 <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Estudiante</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{% url 'registro_estudiante' %}">Nuevo Estudiante</a></li>
-                    <li><a class="nav-link" href="{% url 'lista_estudiante' %}">Lista Estudiantes</a></li>
+                    <li><a class="nav-link" href="{% url 'lista_estudiante' %}">Lista de Estudiantes</a></li>
                 </ul>
             </li>
             <li class="dropdown">
@@ -46,13 +100,7 @@
                     <li><a class="nav-link" href="{% url 'lista_empresa' %}">Lista de Empresas</a></li>
                 </ul>
             </li>
-            <li class="dropdown">
-                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Oferta Laboral</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{% url 'registro_oferta_laboral' %}">Nueva Oferta</a></li>
-                    <li><a class="nav-link" href="{% url 'lista_oferta_laboral' %}">Lista de Ofertas</a></li>
-                </ul>
-            </li>
+
             <li class="dropdown">
                 <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Encuesta Laboral</span></a>
                 <ul class="dropdown-menu">
@@ -60,63 +108,10 @@
                     <li><a class="nav-link" href="{% url 'lista_encuesta_laboral' %}">Lista de Encuestas</a></li>
                 </ul>
             </li>
-                    
-            <li class="dropdown">
-                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Hojas de Vida</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{% url 'registro_hoja_de_vida' %}">Nueva hoja de vida</a></li>
-                    <li><a class="nav-link" href="{% url 'lista_hoja_de_vida' %}">Lista de hojas de vida</a></li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Logros Personales</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{% url 'registro_logros_personales' %}">Nuevo Logro</a></li>
-                    <li><a class="nav-link" href="{% url 'lista_logros_personales' %}">Lista de logros</a></li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Preferencias Laborales</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{% url 'registro_preferencias_laborales' %}">Nueva Prefencia</a></li>
-                    <li><a class="nav-link" href="{% url 'lista_preferencias_laborales' %}">Lista de Preferencias</a></li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Capacitaciones</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{% url 'registro_capacitaciones' %}">Nueva Capacitacion</a></li>
-                    <li><a class="nav-link" href="{% url 'lista_capacitaciones' %}">Lista de Capacitaciones</a></li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Experiencia Laboral</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{% url 'registro_experiencia_laboral' %}">Nueva Experiencia</a></li>
-                    <li><a class="nav-link" href="{% url 'lista_experiencia_laboral' %}">Lista de Experiencia</a></li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Instruccion Formal</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{% url 'registro_instruccion_formal' %}">Nueva Instruccion</a></li>
-                    <li><a class="nav-link" href="{% url 'lista_instruccion_formal' %}">Lista de Instruccion</a></li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a class="nav-link has-dropdown" href=""><i class="fas fa-th"></i><span>Referencias personales</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{% url 'registro_referencias_personales' %}">Nueva Referencias</a></li>
-                    <li><a class="nav-link" href="{% url 'lista_referencias_personales' %}">Lista Referencias</a></li>
-                </ul>
-            </li>
+            {% endif %}
+            {% endfor %}
         </ul>
+
 
     </aside>
 </div>

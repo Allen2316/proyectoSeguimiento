@@ -1,39 +1,77 @@
 {% extends "base.html" %}
-{% block content %}
+{% load static %}
 
+{% block content %}
 
 <section class="section">
   <div class="section-header">
-    <h1>Dashboard</h1>
+    <h1>Inicio</h1>
   </div>
   <div class="section-body">
     <h2 class="section-title">Ofertas laborales</h2>
     <p class="section-lead">
-      Listado de ofertas laborales
+      Lista de Ofertas Laborales
     </p>
     <div class="row">
       {% if object_list %}
-      {% for oferta in object_list %}
-      <div class="col-12 col-md-6 col-lg-3">
-        <div class="card card-primary">
-          <div class="card-header">
-            <h4>{{oferta.informacion_laboral}}</h4>
-          </div>
-
-          <div class="card-body">
-            <p>En la empresa: <code>{{oferta.empresa}}</code></p>
-            <p>Ciudad: <b>{{oferta.informacion_laboral.ciudad}}</b></p>
-            <p>Remuneración: <b>{{oferta.informacion_laboral.remuneracion_economica}}</b></p>
-            <p>Actividades: <b>{{oferta.informacion_laboral.actividades_desempenar}}</b></p>
-            <a href="{% url 'registro_eleccionFRM' oferta.id_oferta_laboral %}" class="btn btn-success">Llenar Encuesta</a>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
+        {% for oferta in object_list %}
+          {% for g in request.user.groups.all %}              
+              {% if g.name == 'GrupoEstudiante' %}                
+                
+                {% if oferta.carrera == request.user.estudiante.carrera %}
+                <div class="col-12 col-md-6 col-lg-3">
+                  <div class="card card-primary">
+                    <div class="card-header">                          
+                      {% for o in user.estudiante.oferta.all %}                     
+                        {% if o.pk == oferta.pk %}                
+                          <h4><i class="far fa-check-circle seleccionado"></i></h4>
+                        {% endif %}                                          
+                      {% endfor %}
+  
+                      <h4>{{oferta.informacion_laboral}}</h4>
+                      <a href="{% url 'oferta_laboral' oferta.pk %}">Ver </a>                                                    
+                    </div>
+                    <div class="card-body">                    
+                      <p>Empresa: <b>{{oferta.empresa}}</b></p>
+                      <p>Ciudad: <b>{{oferta.informacion_laboral.ciudad}}</b></p>
+                      <p>Remuneración: <b>{{oferta.informacion_laboral.remuneracion_economica}}</b></p>                    
+                      
+                      {% for o in user.estudiante.oferta.all %}                     
+                      {% if o.pk == oferta.pk %}                      
+                        <a href="{% url 'registro_eleccionFRM' oferta.id_oferta_laboral %}" class="btn btn-warning">Llenar
+                          Encuesta</a>                       
+                      {% endif %}                                          
+                      {% endfor %}
+                      <a href="{% url 'seleccionaroferta' oferta.pk %}" class="btn btn-success" >Postular</a>                              
+                    </div>
+                  </div>
+                </div>          
+                {% endif %}
+                                                 
+              {% else %}
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="card card-primary">
+                  <div class="card-header">                          
+                    <h4>{{oferta.informacion_laboral}}</h4>
+                    <a href="{% url 'oferta_laboral' oferta.pk %}">Ver </a>                                                    
+                  </div>
+                  <div class="card-body">
+                    <p>Para carrera: <b>{{oferta.carrera}}</b></p>
+                    <p>Empresa: <b>{{oferta.empresa}}</b></p>
+                    <p>Ciudad: <b>{{oferta.informacion_laboral.ciudad}}</b></p>
+                    <p>Remuneración: <b>{{oferta.informacion_laboral.remuneracion_economica}}</b></p>   
+                    <a href="{% url 'lista_oferta_laboral' %}" class="btn btn-success">Ver postulantes</a>                                               
+                  </div>
+                </div>
+              </div>
+              {% endif %}                          
+          {% endfor %}
+        {% endfor %}
       {% else %}
-      <p>No existe ningun registro de ofertas laborales</p>
+        <p>No existe ninguna oferta laboral.</p>
       {% endif %}
     </div>
+  </div>
 </section>
-</div>
 {% endblock content %}
+
